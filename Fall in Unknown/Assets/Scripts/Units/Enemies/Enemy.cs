@@ -18,12 +18,12 @@ public class Enemy : Character
 
     public override void OnSelect()
     {
-        isSelected = true;
+        base.OnSelect();
     }
 
     public override void OnUnselect()
     {
-        isSelected = false;
+        base.OnUnselect();
     }
 
     public override void TakeDamages(int damages)

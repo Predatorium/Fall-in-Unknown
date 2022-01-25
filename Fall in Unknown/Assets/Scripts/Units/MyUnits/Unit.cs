@@ -14,6 +14,22 @@ public class Unit : Character
     // Update is called once per frame
     protected override void Update()
     {
+        if (attacker)
+            Attacker();
+    }
+
+    public override void OnSelect()
+    {
+        base.OnSelect();
+    }
+
+    public override void OnUnselect()
+    {
+        base.OnUnselect();
+    }
+
+    private void Attacker()
+    {
         if (!attacker.myTarget)
         {
             Collider[] colliders = Physics.OverlapSphere(transform.position, attacker.range, 1 << LayerMask.NameToLayer("Player"));
@@ -22,16 +38,13 @@ public class Unit : Character
                 attacker.myTarget = enemy;
             }
         }
-    }
-
-    public override void OnSelect()
-    {
-        isSelected = true;
-    }
-
-    public override void OnUnselect()
-    {
-        isSelected = false;
+        else
+        {
+            if (!attacker.InReach())
+            {
+                SetDestination(attacker.myTarget.transform.position);
+            }
+        }
     }
 
     public override void TakeDamages(int damages)

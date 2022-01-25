@@ -9,15 +9,24 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float speed = 1f;
     [SerializeField] private float zoomSpeed = 10f;
     [SerializeField] private Vector2 zoomValues;
+    private float groundDistance = 0f;
 
     // Start is called before the first frame update
     void Start()
     {
         cam = Camera.main;
+        groundDistance = (zoomValues.x + zoomValues.y) / 2f;
     }
 
     // Update is called once per frame
     void Update()
+    {
+        Moving();
+
+        Zoom();
+    }
+
+    private void Moving()
     {
         Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
         transform.position += move * speed * Time.deltaTime;
@@ -38,12 +47,27 @@ public class CameraController : MonoBehaviour
         //{
         //    transform.position += Vector3.forward * speed * Time.deltaTime;
         //}
+    }
 
-        if ((transform.position.y > zoomValues.x && Input.mouseScrollDelta.y > 0f) ||
-            (transform.position.y < zoomValues.y && Input.mouseScrollDelta.y < 0f))
+    private void Zoom()
+    {
+        Ray ray = cam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
         {
-            transform.position += cam.transform.forward * Input.mouseScrollDelta.y * zoomSpeed * Time.deltaTime;
-            transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, zoomValues.x, zoomValues.y), transform.position.z);
+            transform.position = hit.point + (transform.position - hit.point).normalized * groundDistance;
         }
+
+        if ((groundDistance >= zoomValues.x && Input.mouseScrollDelta.y > 0f) ||
+            (groundDistance <= zoomValues.y && Input.mouseScrollDelta.y < 0f))
+        {
+            groundDistance += -Input.mouseScrollDelta.y * zoomSpeed * Time.deltaTime;
+            groundDistance = Mathf.Clamp(groundDistance, zoomValues.x, zoomValues.y);
+        }
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(cam.transform.position, cam.transform.forward * 100);
     }
 }

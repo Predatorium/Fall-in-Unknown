@@ -25,7 +25,7 @@ public class Attacker : MonoBehaviour
     {
         if (myTarget)
         {
-            if (coolDown <= 0f && Vector3.Distance(transform.position, myTarget.transform.position) <= range)
+            if (coolDown <= 0f && InReach())
             {
                 coolDown = coolDown_Attack;
                 if (attackPrefab)
@@ -47,8 +47,8 @@ public class Attacker : MonoBehaviour
         }
     }
 
-    public void SetTarget(Entity target)
+    public bool InReach()
     {
-        myTarget = target;
+        return Vector3.Distance(transform.position, myTarget.transform.position) <= range;
     }
 }

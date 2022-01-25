@@ -3,18 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance = null;
 
-    public List<Ressources> ressources = new List<Ressources>();
     [SerializeField] private List<Entity> MyEntity = new List<Entity>();
-
-    [SerializeField] private UnitsManager units = null;
 
     [SerializeField] private Image selectionSprite = null;
     [SerializeField] private Camera cam = null;
+    public Canvas canvas = null;
 
     private Vector2 beginMousePos;
 
@@ -29,12 +28,6 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ressources.Add(new Ressources(Ressources.Type.Population, 0));
-        ressources.Add(new Ressources(Ressources.Type.Energie, 0));
-        ressources.Add(new Ressources(Ressources.Type.Bois, 0));
-        ressources.Add(new Ressources(Ressources.Type.Fer, 0));
-        ressources.Add(new Ressources(Ressources.Type.Or, 0));
-
         cam = Camera.main;
     }
 
@@ -70,7 +63,7 @@ public class GameManager : MonoBehaviour
         }
         if (Input.GetMouseButtonDown(1))
         {
-            units.MoveUnit();
+            UnitsManager.Instance.MoveUnit();
         }
     }
 
@@ -159,7 +152,7 @@ public class GameManager : MonoBehaviour
 
     private void SquareCol()
     {
-        Entity[] sel = FindObjectsOfType<Entity>();
+        List<Entity> sel = MyEntity.Where(e => (e as Unit)).ToList();
 
         foreach (Entity select in sel)
         {
@@ -177,10 +170,17 @@ public class GameManager : MonoBehaviour
 
     private void ChooseSelect(Entity entity)
     {
-        Unit unit = entity as Unit;
-        if (unit != null)
+        if (MyEntity.Where(e => (e.gameObject == entity.gameObject)).Count() > 0)
         {
-            units.AddUnit(unit);
+            Unit unit = entity as Unit;
+            if (unit != null)
+            {
+                UnitsManager.Instance.AddUnit(unit);
+            }
+            else
+            {
+                BuildingManager.Instance.AddBuilding(entity as Building);
+            }
         }
         else
         {
@@ -190,10 +190,7 @@ public class GameManager : MonoBehaviour
 
     private void ClearSelect()
     {
-        units.ClearUnits();
-        foreach (Entity entity in MyEntity)
-        {
-            entity.OnUnselect();
-        }
+        UnitsManager.Instance.ClearUnits();
+        BuildingManager.Instance.ClearBuildings();
     }
 }

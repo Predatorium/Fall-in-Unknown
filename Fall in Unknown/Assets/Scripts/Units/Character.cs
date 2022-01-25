@@ -30,12 +30,12 @@ public class Character : Entity
 
     public override void OnSelect()
     {
-        isSelected = true;
+        base.OnSelect();
     }
 
     public override void OnUnselect()
     {
-        isSelected = false;
+        base.OnUnselect();
     }
 
     public void SetDestination(Vector3 destination)

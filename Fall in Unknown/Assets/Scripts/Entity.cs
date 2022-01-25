@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Entity : MonoBehaviour
 {
-    [SerializeField] protected Attacker attacker = null;
+    [SerializeField] private List<Ressources> price = null;
     [SerializeField] private float maxLife = 1f;
+    public string Name = "";
+    public Attacker attacker = null;
 
     private float life = 0f;
 
@@ -37,6 +40,24 @@ public class Entity : MonoBehaviour
     public virtual void OnUnselect()
     {
         isSelected = false;
+    }
+
+    public bool Buyable(ref List<Ressources> resources)
+    {
+        foreach (Ressources resource in price)
+        {
+            if (resources.Where(r => (r.type == resource.type)).First().quantity < resource.quantity)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public List<Ressources> Price()
+    {
+        return price;
     }
 
     public virtual void TakeDamages(int damages)
