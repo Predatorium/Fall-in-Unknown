@@ -9,10 +9,10 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance = null;
 
-    [SerializeField] private List<Entity> MyEntity = new List<Entity>();
+    public List<Entity> MyEntity = new List<Entity>();
 
     [SerializeField] private Image selectionSprite = null;
-    [SerializeField] private Camera cam = null;
+    public Camera cam = null;
     public Canvas canvas = null;
 
     private Vector2 beginMousePos;
@@ -29,6 +29,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         cam = Camera.main;
+        MyEntity.Concat(FindObjectsOfType<Building>());
+        MyEntity.Concat(FindObjectsOfType<Unit>());
     }
 
     // Update is called once per frame
@@ -80,16 +82,19 @@ public class GameManager : MonoBehaviour
         Entity cur = selectable as Entity;
         if (doubleClick.gameObject == cur.gameObject)
         {
-            foreach (Entity current in FindObjectsOfType<Entity>())
+            foreach (Entity current in MyEntity)
             {
-                if (current != null && current.GetType() == doubleClick.GetType())
+                if (doubleClick as Character)
                 {
-                    if (InCamera(current.transform.position))
-                    {
-                        Entity select = current as Entity;
-                        ChooseSelect(select);
-                        select.OnSelect();
-                    }
+                    if (current != null && current.GetType() == doubleClick.GetType())
+                        if (InCamera(current.transform.position))
+                            ChooseSelect(current);
+                }
+                else
+                {
+                    if (current != null && current.Name == doubleClick.Name)
+                        if (InCamera(current.transform.position))
+                            ChooseSelect(current);
                 }
             }
             
@@ -170,7 +175,7 @@ public class GameManager : MonoBehaviour
 
     private void ChooseSelect(Entity entity)
     {
-        if (MyEntity.Where(e => (e.gameObject == entity.gameObject)).Count() > 0)
+        if (MyEntity.Contains(entity))
         {
             Unit unit = entity as Unit;
             if (unit != null)

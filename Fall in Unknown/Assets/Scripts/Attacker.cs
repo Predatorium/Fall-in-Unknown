@@ -31,6 +31,7 @@ public class Attacker : MonoBehaviour
                 if (attackPrefab)
                 {
                     Attack attack = Instantiate(attackPrefab);
+                    attack.transform.position = transform.position;
                     attack.target = myTarget;
                     attack.damages = damages;
                 }

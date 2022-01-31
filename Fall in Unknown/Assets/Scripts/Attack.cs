@@ -17,15 +17,8 @@ public class Attack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (target)
-        {
-            transform.LookAt(target.transform);
-            transform.position += transform.forward * Time.deltaTime * speed;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        transform.up = target.transform.position - transform.position;
+        transform.position += transform.up * Time.deltaTime * speed;
     }
 
     private void OnCollisionEnter(Collision collision)

@@ -51,8 +51,8 @@ public class CameraController : MonoBehaviour
 
     private void Zoom()
     {
-        Ray ray = cam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
-        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
+        Ray ray = new Ray(transform.position, cam.transform.forward);//cam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, ~(1 << LayerMask.NameToLayer("Player") | 1 << LayerMask.NameToLayer("Build"))))
         {
             transform.position = hit.point + (transform.position - hit.point).normalized * groundDistance;
         }
@@ -68,6 +68,6 @@ public class CameraController : MonoBehaviour
     void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawRay(cam.transform.position, cam.transform.forward * 100);
+        Gizmos.DrawRay(transform.position, cam.transform.forward * 100);
     }
 }

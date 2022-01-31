@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 using System.Linq;
+using UnityEngine.Events;
 
 public class UnitsManager : MonoBehaviour
 {
@@ -11,9 +12,7 @@ public class UnitsManager : MonoBehaviour
 
     private List<Unit> units = new List<Unit>();
 
-    [SerializeField] private Image prefabUI = null;
-    private Image UI = null;
-    private bool UIisActive = false;
+    [SerializeField] private GameObject UI = null;
 
     private void Awake()
     {
@@ -29,19 +28,17 @@ public class UnitsManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (units.Count > 0 && UIisActive == false)
-        {
-            UIisActive = true;
-            UI = Instantiate(prefabUI, GameManager.Instance.canvas.transform);
-        }
+
     }
 
     public void AddUnit(Unit unit)
     {
-        if (units.Where(u => (u.gameObject == unit.gameObject)).Count() == 0)
+        if (!units.Contains(unit))
         {
             units.Add(unit);
             unit.OnSelect();
+             
+            UI.SetActive(true);
         }
     }
 
@@ -65,6 +62,7 @@ public class UnitsManager : MonoBehaviour
                 foreach (Unit unit in units)
                 {
                     unit.SetDestination(Hit.position);
+                    unit.attacker.myTarget = null;
                 }
             }
         }
@@ -78,11 +76,7 @@ public class UnitsManager : MonoBehaviour
             units.Remove(units[0]);
         }
 
-        if (UIisActive == true)
-        {
-            Destroy(UI.gameObject);
-            UIisActive = false;
-        }
+        UI.gameObject.SetActive(false);
     }
 
     public void DestroyUnits()
@@ -90,6 +84,7 @@ public class UnitsManager : MonoBehaviour
         while (units.Count > 0)
         {
             Unit tmp = units[0];
+            RessourcesManager.Instance.Sell(ref tmp.Price());
             units.Remove(units[0]);
             Destroy(tmp.gameObject);
         }

@@ -12,7 +12,7 @@ public class RessourcesManager : MonoBehaviour
 
     private void Awake()
     {
-        Instance = null;
+        Instance = this;
     }
 
     // Start is called before the first frame update
@@ -33,19 +33,27 @@ public class RessourcesManager : MonoBehaviour
         if (prefabsEntities[index].Buyable(ref ressources))
         {
             List<Ressources> resources = prefabsEntities[index].Price();
-            Purchase(ref resources);
-            return Instantiate(prefabsEntities[index]);
+            return prefabsEntities[index];
         }
 
         return null;
     }
 
-    private void Purchase(ref List<Ressources> price)
+    public void Purchase(ref List<Ressources> price)
     {
         foreach (Ressources p in price)
         {
             int index = ressources.IndexOf(ressources.Where(r => (r.type == p.type)).First());
             ressources[index].quantity -= p.quantity;
+        }
+    }
+
+    public void Sell(ref List<Ressources> price)
+    {
+        foreach (Ressources p in price)
+        {
+            int index = ressources.IndexOf(ressources.Where(r => (r.type == p.type)).First());
+            ressources[index].quantity += p.quantity;
         }
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Character : Entity
 {
-    [SerializeField] private UnityEngine.AI.NavMeshAgent agent = null;
+    public UnityEngine.AI.NavMeshAgent agent = null;
 
     protected enum State
     {
@@ -25,7 +25,9 @@ public class Character : Entity
     // Update is called once per frame
     protected override void Update()
     {
-
+        base.Update();
+        Vector3 screenPos = GameManager.Instance.cam.WorldToScreenPoint(transform.position) + new Vector3(0, 40);
+        UILife.transform.localPosition = new Vector3(screenPos.x - (Screen.width / 2), screenPos.y - (Screen.height / 2), 0f) / GameManager.Instance.canvas.scaleFactor;
     }
 
     public override void OnSelect()

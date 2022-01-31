@@ -8,6 +8,7 @@ public class Ressources
     public enum Type
     {
         Population,
+        Nourriture,
         Energie,
         Bois,
         Fer,

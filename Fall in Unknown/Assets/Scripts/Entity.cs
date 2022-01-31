@@ -10,20 +10,28 @@ public class Entity : MonoBehaviour
     public string Name = "";
     public Attacker attacker = null;
 
+    [SerializeField] private UIEntity prefabsUILife = null;
+    protected UIEntity UILife = null;
+
+    [SerializeField] private GameObject UISelected = null;
+
     private float life = 0f;
 
     public bool isSelected = false;
 
     protected virtual void Awake()
     {
-        attacker = GetComponent<Attacker>();
-        life = maxLife;
+
     }
 
     // Start is called before the first frame update
     protected virtual void Start()
     {
-        
+        attacker = GetComponent<Attacker>();
+        life = maxLife;
+
+        UILife = Instantiate(prefabsUILife, GameManager.Instance.canvas.transform);
+        UILife.owner = this;
     }
 
     // Update is called once per frame
@@ -35,11 +43,13 @@ public class Entity : MonoBehaviour
     public virtual void OnSelect()
     {
         isSelected = true;
+        UISelected.SetActive(isSelected);
     }
 
     public virtual void OnUnselect()
     {
         isSelected = false;
+        UISelected.SetActive(isSelected);
     }
 
     public bool Buyable(ref List<Ressources> resources)
@@ -55,14 +65,24 @@ public class Entity : MonoBehaviour
         return true;
     }
 
-    public List<Ressources> Price()
+    public ref List<Ressources> Price()
     {
-        return price;
+        return ref price;
+    }
+
+    public float PourcentageLife()
+    {
+        return (float)life / (float)maxLife;
     }
 
     public virtual void TakeDamages(int damages)
     {
         life -= damages;
         life = Mathf.Clamp(life, 0, maxLife);
+
+        UILife.resetUI();
+
+        if (life <= 0)
+            Destroy(gameObject);
     }
 }
