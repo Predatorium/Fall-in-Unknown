@@ -8,6 +8,7 @@ public class Build : MonoBehaviour
     [HideInInspector] public Building prefabsBuilding = null;
 
     [SerializeField] private Collider collider = null;
+    [SerializeField] private LayerMask mask;
 
     private float timer = 0f;
     public GameObject UI = null;
@@ -39,9 +40,9 @@ public class Build : MonoBehaviour
             }
         }
         else
-        {
+        {   
             IsPlaceable = true;
-            Collider[] colliders = Physics.OverlapBox(transform.position, collider.bounds.extents, transform.rotation, ~((1 << LayerMask.NameToLayer("Build")) | (1 << LayerMask.NameToLayer("Ground"))));
+            Collider[] colliders = Physics.OverlapBox(transform.position, collider.bounds.extents, transform.rotation, ~(mask));
             if (colliders.Length > 0)
             {
                 IsPlaceable = false;

@@ -20,8 +20,6 @@ public class Unit : Character
     protected override void Update()
     {
         base.Update();
-        if (attacker)
-            Attacker();
     }
 
     public override void OnSelect()
@@ -34,27 +32,13 @@ public class Unit : Character
         base.OnUnselect();
     }
 
-    private void Attacker()
+    protected override void Attacker()
     {
-        if (!attacker.myTarget)
-        {
-            Collider[] colliders = Physics.OverlapSphere(transform.position, attacker.range, 1 << LayerMask.NameToLayer("Player"));
-            foreach (Enemy enemy in colliders.OfType<Enemy>())
-            {
-                attacker.myTarget = enemy;
-            }
-        }
-        else
-        {
-            if (!attacker.InReach())
-            {
-                SetDestination(attacker.myTarget.transform.position);
-            }
-        }
+        base.Attacker();
     }
 
-    public override void TakeDamages(int damages)
+    public override void ChangeHealth(int damages)
     {
-        base.TakeDamages(damages);
+        base.ChangeHealth(damages);
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Enemy : Character
 {
@@ -18,7 +19,7 @@ public class Enemy : Character
     // Update is called once per frame
     protected override void Update()
     {
-        
+        base.Update();
     }
 
     public override void OnSelect()
@@ -31,8 +32,13 @@ public class Enemy : Character
         base.OnUnselect();
     }
 
-    public override void TakeDamages(int damages)
+    protected override void Attacker()
     {
-        base.TakeDamages(damages);
+        base.Attacker();
+    }
+
+    public override void ChangeHealth(int damages)
+    {
+        base.ChangeHealth(damages);
     }
 }

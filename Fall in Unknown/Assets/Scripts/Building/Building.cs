@@ -44,8 +44,8 @@ public class Building : Entity
         }
     }
 
-    public override void TakeDamages(int damages)
+    public override void ChangeHealth(int damages)
     {
-        base.TakeDamages(damages);
+        base.ChangeHealth(damages);
     }
 }

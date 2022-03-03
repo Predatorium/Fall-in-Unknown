@@ -113,6 +113,9 @@ MonoBehaviour:
   DelayConstruction: 0
   prefabsBuilding: {fileID: 0}
   collider: {fileID: 6370984358814730668}
+  mask:
+    serializedVersion: 2
+    m_Bits: 1160
   UI: {fileID: 0}
   IsPlace: 0
   IsPlaceable: 1

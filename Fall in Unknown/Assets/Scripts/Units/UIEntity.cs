@@ -7,7 +7,7 @@ public class UIEntity : MonoBehaviour
 {
     [SerializeField] private Image lifeBarre = null;
     [HideInInspector] public Entity owner = null;
-    private float timer = 5f;
+    private Coroutine hide = null;
 
     // Start is called before the first frame update
     void Start()
@@ -19,20 +19,32 @@ public class UIEntity : MonoBehaviour
     void Update()
     {
         if (owner != null)
+        {
             lifeBarre.fillAmount = owner.PourcentageLife();
+
+            Vector3 screenPos = GameManager.Instance.cam.WorldToScreenPoint(owner.transform.position) + new Vector3(0, 40);
+            transform.localPosition = new Vector3(screenPos.x - (Screen.width / 2), screenPos.y - (Screen.height / 2), 0f) / GameManager.Instance.canvas.scaleFactor;
+        }
         else
             Destroy(gameObject);
-
-        if (timer <= 0f)
-        {
-            gameObject.SetActive(false);
-            timer = 5f;
-        }
     }
+
     public void resetUI()
     {
         gameObject.SetActive(true);
-        timer = 5f;
+
+        if (hide != null)
+        {
+            StopCoroutine(hide);
+        }
+
+        hide = StartCoroutine(Hide());
     }
 
+    private IEnumerator Hide()
+    {
+        yield return new WaitForSeconds(5f);
+        gameObject.SetActive(false);
+        hide = null;
+    }
 }

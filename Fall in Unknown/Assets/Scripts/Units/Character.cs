@@ -26,8 +26,14 @@ public class Character : Entity
     protected override void Update()
     {
         base.Update();
-        Vector3 screenPos = GameManager.Instance.cam.WorldToScreenPoint(transform.position) + new Vector3(0, 40);
-        UILife.transform.localPosition = new Vector3(screenPos.x - (Screen.width / 2), screenPos.y - (Screen.height / 2), 0f) / GameManager.Instance.canvas.scaleFactor;
+
+        if (attacker)
+            Attacker();
+
+        if (Vector3.Distance(transform.position, agent.destination) < 1f && !attacker.myTarget)
+        {
+            agent.ResetPath();
+        }
     }
 
     public override void OnSelect()
@@ -40,13 +46,36 @@ public class Character : Entity
         base.OnUnselect();
     }
 
+    protected virtual void Attacker()
+    {
+        if (!attacker.myTarget)
+        {
+            Collider[] colliders = Physics.OverlapSphere(transform.position, attacker.detectionRange, attacker.mask);
+            foreach (Collider enemy in colliders)
+            {
+                attacker.myTarget = enemy.GetComponent<Entity>();
+            }
+        }
+        else
+        {
+            if (!attacker.InReach())
+            {
+                SetDestination(attacker.myTarget.transform.position);
+            }
+            else
+            {
+                agent.ResetPath();
+            }
+        }
+    }
+
     public void SetDestination(Vector3 destination)
     {
         agent.SetDestination(destination);
     }
 
-    public override void TakeDamages(int damages)
+    public override void ChangeHealth(int damages)
     {
-        base.TakeDamages(damages);
+        base.ChangeHealth(damages);
     }
 }

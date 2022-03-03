@@ -11,6 +11,8 @@ public class CameraController : MonoBehaviour
     [SerializeField] private Vector2 zoomValues;
     private float groundDistance = 0f;
 
+    [SerializeField] private LayerMask mask;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,7 +30,7 @@ public class CameraController : MonoBehaviour
 
     private void Moving()
     {
-        Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+        Vector3 move = (transform.right * Input.GetAxis("Horizontal") + transform.forward * Input.GetAxis("Vertical"));
         transform.position += move * speed * Time.deltaTime;
 
         //if (cam.ScreenToViewportPoint(Input.mousePosition).x < 0.1f)
@@ -51,8 +53,8 @@ public class CameraController : MonoBehaviour
 
     private void Zoom()
     {
-        Ray ray = new Ray(transform.position, cam.transform.forward);//cam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
-        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, ~(1 << LayerMask.NameToLayer("Player") | 1 << LayerMask.NameToLayer("Build"))))
+        Ray ray = new Ray(transform.position, cam.transform.forward);
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, ~mask))
         {
             transform.position = hit.point + (transform.position - hit.point).normalized * groundDistance;
         }

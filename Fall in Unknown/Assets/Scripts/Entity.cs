@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class Entity : MonoBehaviour
+public abstract class Entity : MonoBehaviour
 {
     [SerializeField] private List<Ressources> price = null;
     [SerializeField] private float maxLife = 1f;
@@ -21,15 +21,12 @@ public class Entity : MonoBehaviour
 
     protected virtual void Awake()
     {
-
+        life = maxLife;
     }
 
     // Start is called before the first frame update
     protected virtual void Start()
     {
-        attacker = GetComponent<Attacker>();
-        life = maxLife;
-
         UILife = Instantiate(prefabsUILife, GameManager.Instance.canvas.transform);
         UILife.owner = this;
     }
@@ -75,10 +72,9 @@ public class Entity : MonoBehaviour
         return (float)life / (float)maxLife;
     }
 
-    public virtual void TakeDamages(int damages)
+    public virtual void ChangeHealth(int modifLife)
     {
-        life -= damages;
-        life = Mathf.Clamp(life, 0, maxLife);
+        life = Mathf.Clamp(life + modifLife, 0, maxLife);
 
         UILife.resetUI();
 

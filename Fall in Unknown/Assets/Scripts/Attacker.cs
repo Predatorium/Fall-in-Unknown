@@ -10,9 +10,11 @@ public class Attacker : MonoBehaviour
 
     [SerializeField] private float coolDown_Attack = 0f;
     [SerializeField] private int damages = 1;
-    [SerializeField] public float range = 1f;
+    [SerializeField] public float attackRange = 1f;
+    [SerializeField] public float detectionRange = 2f;
 
     private float coolDown = 0f;
+    public LayerMask mask;
 
     // Start is called before the first frame update
     void Start()
@@ -35,21 +37,16 @@ public class Attacker : MonoBehaviour
                     attack.target = myTarget;
                     attack.damages = damages;
                 }
-                else
-                {
-                    myTarget.TakeDamages(damages);
-                }
             }
-        }
-
-        if (coolDown > 0)
-        {
-            coolDown -= Time.deltaTime;
+            else if (coolDown > 0)
+            {
+                coolDown -= Time.deltaTime;
+            }
         }
     }
 
     public bool InReach()
     {
-        return Vector3.Distance(transform.position, myTarget.transform.position) <= range;
+        return Physics.Raycast(transform.position, myTarget.transform.position - transform.position, attackRange, 1 << LayerMask.NameToLayer("Enemy"));
     }
 }

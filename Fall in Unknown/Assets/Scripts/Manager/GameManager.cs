@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour
             selectionSprite.gameObject.SetActive(false);
             SquareCol();
         }
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButton(1))
         {
             UnitsManager.Instance.MoveUnit();
         }
