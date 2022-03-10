@@ -91,7 +91,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifeBarre: {fileID: 5972687011302360817}
-  type: 0
   owner: {fileID: 0}
 --- !u!1 &7102707553184382730
 GameObject:

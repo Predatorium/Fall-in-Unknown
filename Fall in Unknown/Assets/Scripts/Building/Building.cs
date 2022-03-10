@@ -16,6 +16,7 @@ public class Building : Entity
 
     protected override void Awake()
     {
+        base.Awake();
         recrut = GetComponent<RecrutUnit>();
         base.Awake();
     }
@@ -23,6 +24,7 @@ public class Building : Entity
     // Start is called before the first frame update
     protected override void Start()
     {
+        base.Start();
         if (!ContiniousProduct)
         {
             RessourcesManager.Instance.Sell(ref Product);
@@ -32,6 +34,7 @@ public class Building : Entity
     // Update is called once per frame
     protected override void Update()
     {
+        base.Update();
         if (ContiniousProduct)
         {
             timeForProduct += Time.deltaTime;

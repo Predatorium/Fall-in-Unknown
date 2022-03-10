@@ -35,19 +35,19 @@ public class CameraController : MonoBehaviour
 
         //if (cam.ScreenToViewportPoint(Input.mousePosition).x < 0.1f)
         //{
-        //    transform.position -= Vector3.right * speed * Time.deltaTime;
+        //    transform.position -= transform.right * speed * Time.deltaTime;
         //}
         //if (cam.ScreenToViewportPoint(Input.mousePosition).x > 0.9f)
         //{
-        //    transform.position += Vector3.right * speed * Time.deltaTime;
+        //    transform.position += transform.right * speed * Time.deltaTime;
         //}
         //if (cam.ScreenToViewportPoint(Input.mousePosition).y < 0.1f)
         //{
-        //    transform.position -= Vector3.forward * speed * Time.deltaTime;
+        //    transform.position -= transform.forward * speed * Time.deltaTime;
         //}
         //if (cam.ScreenToViewportPoint(Input.mousePosition).y > 0.9f)
         //{
-        //    transform.position += Vector3.forward * speed * Time.deltaTime;
+        //    transform.position += transform.forward * speed * Time.deltaTime;
         //}
     }
 

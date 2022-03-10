@@ -47,6 +47,6 @@ public class Attacker : MonoBehaviour
 
     public bool InReach()
     {
-        return Physics.Raycast(transform.position, myTarget.transform.position - transform.position, attackRange, 1 << LayerMask.NameToLayer("Enemy"));
+        return Physics.Raycast(transform.position, myTarget.transform.position - transform.position, attackRange, mask);
     }
 }

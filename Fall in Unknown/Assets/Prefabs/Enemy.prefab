@@ -177,7 +177,8 @@ MonoBehaviour:
   myTarget: {fileID: 0}
   coolDown_Attack: 2
   damages: 1
-  range: 1
+  attackRange: 1
+  detectionRange: 20
   mask:
     serializedVersion: 2
     m_Bits: 8
