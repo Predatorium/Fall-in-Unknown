@@ -5,17 +5,20 @@ using System.Linq;
 
 public abstract class Entity : MonoBehaviour
 {
-    [SerializeField] private List<Ressources> price = null;
-    [SerializeField] private float maxLife = 1f;
+    [SerializeField] private Ressources[] price = null;
+    [SerializeField] private int maxLife = 1;
+    [SerializeField] private Sprite icon = null;
     public string Name = "";
     public Attacker attacker = null;
 
     [SerializeField] private UIEntity prefabsUILife = null;
     protected UIEntity UILife = null;
 
-    [SerializeField] private GameObject UISelected = null;
+    [SerializeField] protected GameObject UISelected = null;
+    [SerializeField] private UiInfoEntity prefabsInfo = null;
+    private UiInfoEntity myInfo = null;
 
-    private float life = 0f;
+    public int life { get; private set; } = 0;
 
     public bool isSelected = false;
 
@@ -41,15 +44,22 @@ public abstract class Entity : MonoBehaviour
     {
         isSelected = true;
         UISelected.SetActive(isSelected);
+
+        myInfo = Instantiate(prefabsInfo, GameManager.Instance.InfoEntity);
+        myInfo.owner = this;
+        //myInfo.iconChange.sprite = icon;
+        myInfo.maxLife = maxLife;
     }
 
     public virtual void OnUnselect()
     {
         isSelected = false;
         UISelected.SetActive(isSelected);
+
+        Destroy(myInfo.gameObject);
     }
 
-    public bool Buyable(ref List<Ressources> resources)
+    public bool Buyable(ref Ressources[] resources)
     {
         foreach (Ressources resource in price)
         {
@@ -62,7 +72,7 @@ public abstract class Entity : MonoBehaviour
         return true;
     }
 
-    public ref List<Ressources> Price()
+    public ref Ressources[] Price()
     {
         return ref price;
     }

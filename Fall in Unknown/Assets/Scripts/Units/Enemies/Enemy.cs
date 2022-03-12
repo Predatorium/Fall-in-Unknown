@@ -20,6 +20,14 @@ public class Enemy : Character
     protected override void Update()
     {
         base.Update();
+
+        if (UISelected.activeSelf)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                OnUnselect();
+            }
+        }
     }
 
     public override void OnSelect()

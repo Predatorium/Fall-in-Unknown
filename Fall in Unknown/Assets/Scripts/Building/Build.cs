@@ -34,6 +34,7 @@ public class Build : MonoBehaviour
                 Building building = Instantiate(prefabsBuilding);
                 GameManager.Instance.MyEntity.Add(building);
                 building.transform.position = transform.position;
+                building.transform.rotation = transform.rotation;
                 building.UI = UI;
 
                 Destroy(gameObject);
@@ -42,8 +43,8 @@ public class Build : MonoBehaviour
         else
         {   
             IsPlaceable = true;
-            Collider[] colliders = Physics.OverlapBox(transform.position, collider.bounds.extents, transform.rotation, ~(mask));
-            if (colliders.Length > 0)
+            Collider[] colliders = Physics.OverlapSphere(transform.position, collider.bounds.size.x * 2f, mask);
+            if (colliders.Length > 1)
             {
                 IsPlaceable = false;
             }
@@ -52,6 +53,6 @@ public class Build : MonoBehaviour
 
     public void Rotate()
     {
-        transform.Rotate(new Vector3(0f, 90f, 0f));
+        transform.Rotate(new Vector3(0f, 45f, 0f));
     }
 }

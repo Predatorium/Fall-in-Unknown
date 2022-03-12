@@ -10,8 +10,8 @@ public class Building : Entity
 
     public float DelayBuild = 0f;
 
-    [SerializeField] private List<Ressources> Product = null;
-    [SerializeField] private bool ContiniousProduct = false;
+    [SerializeField] private Ressources[] Product = null;
+    [SerializeField] private Ressources[] ContiniousProduct = null;
     private float timeForProduct = 0f;
 
     protected override void Awake()
@@ -25,7 +25,7 @@ public class Building : Entity
     protected override void Start()
     {
         base.Start();
-        if (!ContiniousProduct)
+        if (Product.Length > 0)
         {
             RessourcesManager.Instance.Sell(ref Product);
         }
@@ -35,7 +35,7 @@ public class Building : Entity
     protected override void Update()
     {
         base.Update();
-        if (ContiniousProduct)
+        if (ContiniousProduct.Length > 0)
         {
             timeForProduct += Time.deltaTime;
 

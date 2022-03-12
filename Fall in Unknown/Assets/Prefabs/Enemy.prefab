@@ -155,10 +155,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   price: []
   maxLife: 20
+  icon: {fileID: 0}
   Name: Zombie
   attacker: {fileID: 3920808664076086441}
   prefabsUILife: {fileID: 8205283173294655001, guid: 981cb8e01f2f34a4db95fa00e3aafdac, type: 3}
   UISelected: {fileID: 8134929802772682647}
+  prefabsInfo: {fileID: 57751441806212243, guid: 75cd028b1880cbf49814da19335828bb, type: 3}
   isSelected: 0
   agent: {fileID: 3920808664076086443}
 --- !u!114 &3920808664076086441

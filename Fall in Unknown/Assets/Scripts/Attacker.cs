@@ -37,6 +37,15 @@ public class Attacker : MonoBehaviour
                     attack.target = myTarget;
                     attack.damages = damages;
                 }
+                else
+                {
+                    Collider[] colliders = Physics.OverlapBox(transform.position + transform.forward, new Vector3(0.5f, 0.5f, 0.5f), Quaternion.identity, mask);
+                    foreach(Collider enemy in colliders)
+                    {
+                        Entity entity = enemy.GetComponent<Entity>();
+                        entity.ChangeHealth(-damages);
+                    }
+                }
             }
             else if (coolDown > 0)
             {
@@ -47,6 +56,7 @@ public class Attacker : MonoBehaviour
 
     public bool InReach()
     {
-        return Physics.Raycast(transform.position, myTarget.transform.position - transform.position, attackRange, mask);
+        return Vector3.Distance(transform.position, myTarget.transform.position) <= attackRange &&
+            Physics.Raycast(transform.position, myTarget.transform.position - transform.position, attackRange, mask);
     }
 }

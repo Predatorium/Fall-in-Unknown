@@ -24,6 +24,7 @@ public class RecrutUnit : MonoBehaviour
         if (unit)
         {
             Unit tmpunit = Instantiate(unit);
+            RessourcesManager.Instance.Purchase(ref unit.Price());
             GameManager.Instance.MyEntity.Add(tmpunit);
             tmpunit.agent.Warp(transform.position - transform.forward * transform.localScale.z);
             tmpunit.SetDestination(Destination.position);

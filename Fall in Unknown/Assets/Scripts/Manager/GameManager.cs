@@ -20,6 +20,8 @@ public class GameManager : MonoBehaviour
     private Entity doubleClick = null;
     private float timeDoubleClick = 0f;
 
+    public Transform InfoEntity = null;
+
     private void Awake()
     {
         Instance = this;

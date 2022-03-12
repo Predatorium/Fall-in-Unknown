@@ -144,10 +144,12 @@ MonoBehaviour:
   - type: 3
     quantity: 2
   maxLife: 10
+  icon: {fileID: 0}
   Name: Warrior
   attacker: {fileID: 1679421848792679110}
   prefabsUILife: {fileID: 8205283173294655001, guid: 981cb8e01f2f34a4db95fa00e3aafdac, type: 3}
   UISelected: {fileID: 3678718912163487395}
+  prefabsInfo: {fileID: 57751441806212243, guid: 75cd028b1880cbf49814da19335828bb, type: 3}
   isSelected: 0
   agent: {fileID: 1679421848792679116}
 --- !u!114 &1679421848792679110
@@ -162,7 +164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59027821533dfd1478f50358739837ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackPrefab: {fileID: 909882510401093490, guid: c6e59b7732ee4bf4d965cbad58c86c41, type: 3}
+  attackPrefab: {fileID: 0}
   myTarget: {fileID: 0}
   coolDown_Attack: 2
   damages: 1

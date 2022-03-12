@@ -2,13 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using TMPro;
 
 public class RessourcesManager : MonoBehaviour
 {
     public static RessourcesManager Instance = null;
-    public List<Ressources> ressources = null;
+    public Ressources[] ressources = null;
 
     [SerializeField] private List<Entity> prefabsEntities = null;
+    [SerializeField] private TextMeshProUGUI[] resourceNb = null;
 
     private void Awake()
     {
@@ -27,33 +29,46 @@ public class RessourcesManager : MonoBehaviour
         
     }
 
+    private void ResourcesUpdate()
+    {
+        for (int i = 0; i < ressources.Length; i++)
+        {
+            resourceNb[i].text = ressources[i].quantity.ToString();
+        }
+    }
+
     public Entity BuyingEntity(string name)
     {
         int index = prefabsEntities.IndexOf(prefabsEntities.Where(e => (e.name == name)).First());
         if (prefabsEntities[index].Buyable(ref ressources))
         {
-            List<Ressources> resources = prefabsEntities[index].Price();
             return prefabsEntities[index];
         }
 
         return null;
     }
 
-    public void Purchase(ref List<Ressources> price)
+    public void Purchase(ref Ressources[] price)
     {
         foreach (Ressources p in price)
         {
-            int index = ressources.IndexOf(ressources.Where(r => (r.type == p.type)).First());
+            Ressources tmp = ressources.Where(r => r.type == p.type).First();
+            int index = System.Array.IndexOf(ressources, tmp);
             ressources[index].quantity -= p.quantity;
         }
+
+        ResourcesUpdate();
     }
 
-    public void Sell(ref List<Ressources> price)
+    public void Sell(ref Ressources[] price)
     {
         foreach (Ressources p in price)
         {
-            int index = ressources.IndexOf(ressources.Where(r => (r.type == p.type)).First());
+            Ressources tmp = ressources.Where(r => r.type == p.type).First();
+            int index = System.Array.IndexOf(ressources, tmp);
             ressources[index].quantity += p.quantity;
         }
+
+        ResourcesUpdate();
     }
 }

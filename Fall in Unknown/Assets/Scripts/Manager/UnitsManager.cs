@@ -47,7 +47,6 @@ public class UnitsManager : MonoBehaviour
         Ray mouseray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(mouseray, out RaycastHit mouseHit, Mathf.Infinity))
         {
-            Debug.DrawLine(mouseray.origin, mouseHit.point, Color.white, 10f);
             Entity entity = mouseHit.collider.GetComponent<Entity>();
             if (entity)
             {

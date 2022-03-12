@@ -50,10 +50,13 @@ public class Character : Entity
     {
         if (!attacker.myTarget)
         {
-            Collider[] colliders = Physics.OverlapSphere(transform.position, attacker.detectionRange, attacker.mask);
-            foreach (Collider enemy in colliders)
+            if (agent.velocity == Vector3.zero)
             {
-                attacker.myTarget = enemy.GetComponent<Entity>();
+                Collider[] colliders = Physics.OverlapSphere(transform.position, attacker.detectionRange, attacker.mask);
+                foreach (Collider enemy in colliders)
+                {
+                    attacker.myTarget = enemy.GetComponent<Entity>();
+                }
             }
         }
         else
