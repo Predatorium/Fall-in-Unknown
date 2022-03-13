@@ -2,40 +2,52 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Build : MonoBehaviour
+public class Build : Building
 {
-    [HideInInspector] public float DelayConstruction = 0f;
     [HideInInspector] public Building prefabsBuilding = null;
 
     [SerializeField] private Collider collider = null;
     [SerializeField] private LayerMask mask;
-
+    
     private float timer = 0f;
-    public GameObject UI = null;
+    public GameObject transfertUI = null;
 
-    public bool IsPlace = false;
+    private bool IsPlace = false;
     public bool IsPlaceable = true;
 
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private UIBuild prefabsUIBuild = null;
+
+    protected override void Awake()
     {
-        
+
+    }
+
+    // Start is called before the first frame update
+    protected override void Start()
+    {
+        transform.localScale = prefabsBuilding.transform.localScale;
+        DelayBuild = prefabsBuilding.DelayBuild;
+
+        maxLife = prefabsBuilding.maxLife / 4;
+        Price() = prefabsBuilding.Price();
+
+        base.Awake();
     }
 
     // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
         if (IsPlace)
         {
             timer += Time.deltaTime;
 
-            if (timer >= DelayConstruction)
+            if (timer >= DelayBuild)
             {
                 Building building = Instantiate(prefabsBuilding);
                 GameManager.Instance.MyEntity.Add(building);
                 building.transform.position = transform.position;
                 building.transform.rotation = transform.rotation;
-                building.UI = UI;
+                building.UI = transfertUI;
 
                 Destroy(gameObject);
             }
@@ -51,8 +63,28 @@ public class Build : MonoBehaviour
         }
     }
 
+    public void Placing()
+    {
+        IsPlace = true;
+        base.Start();
+        gameObject.layer = LayerMask.NameToLayer("Player");
+
+        UIBuild tmp = Instantiate(prefabsUIBuild, GameManager.Instance.canvas.transform);
+        tmp.owner = this;
+    }
+
+    public float Progress()
+    {
+        return timer / DelayBuild;
+    }
+
     public void Rotate()
     {
         transform.Rotate(new Vector3(0f, 45f, 0f));
+    }
+
+    public override void ChangeHealth(int damages)
+    {
+        base.ChangeHealth(damages);
     }
 }

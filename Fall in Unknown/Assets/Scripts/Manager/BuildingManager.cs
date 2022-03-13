@@ -47,7 +47,7 @@ public class BuildingManager : MonoBehaviour
 
             if (Input.GetMouseButtonDown(0) && build.IsPlaceable)
             {
-                build.IsPlace = true;
+                build.Placing();
                 RessourcesManager.Instance.Purchase(ref build.prefabsBuilding.Price());
                 build = null;
             }
@@ -103,10 +103,10 @@ public class BuildingManager : MonoBehaviour
         if (building)
         {
             build = Instantiate(prefabBuild);
+            GameManager.Instance.MyEntity.Add(build);
             build.prefabsBuilding = building;
-            build.UI = UIs.Where(u => u.Name == name).First().UI;
-            build.transform.localScale = building.transform.localScale;
-            build.DelayConstruction = building.DelayBuild;
+            build.UI = 
+            build.transfertUI = UIs.Where(u => u.Name == name).First().UI;
         }
     }
 

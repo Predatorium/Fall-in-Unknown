@@ -6,7 +6,7 @@ using System.Linq;
 public abstract class Entity : MonoBehaviour
 {
     [SerializeField] private Ressources[] price = null;
-    [SerializeField] private int maxLife = 1;
+    public int maxLife = 1;
     [SerializeField] private Sprite icon = null;
     public string Name = "";
     public Attacker attacker = null;
@@ -18,7 +18,7 @@ public abstract class Entity : MonoBehaviour
     [SerializeField] private UiInfoEntity prefabsInfo = null;
     private UiInfoEntity myInfo = null;
 
-    public int life { get; private set; } = 0;
+    public int life { get; protected set; } = 0;
 
     public bool isSelected = false;
 
@@ -90,5 +90,16 @@ public abstract class Entity : MonoBehaviour
 
         if (life <= 0)
             Destroy(gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        if (GameManager.Instance)
+        {
+            if (GameManager.Instance.MyEntity.Contains(this))
+            {
+                GameManager.Instance.MyEntity.Remove(this);
+            }
+        }
     }
 }

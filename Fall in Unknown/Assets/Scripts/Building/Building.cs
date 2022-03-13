@@ -17,8 +17,6 @@ public class Building : Entity
     protected override void Awake()
     {
         base.Awake();
-        recrut = GetComponent<RecrutUnit>();
-        base.Awake();
     }
 
     // Start is called before the first frame update
@@ -42,7 +40,7 @@ public class Building : Entity
             if (timeForProduct >= 60f)
             {
                 timeForProduct = 0f;
-                RessourcesManager.Instance.Sell(ref Product);
+                RessourcesManager.Instance.Sell(ref ContiniousProduct);
             }
         }
     }

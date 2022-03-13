@@ -129,6 +129,7 @@ GameObject:
   - component: {fileID: 4235019258589471433}
   - component: {fileID: 4235019258589471432}
   - component: {fileID: 4235019258589471431}
+  - component: {fileID: 6976979324000429171}
   m_Layer: 3
   m_Name: Caserne
   m_TagString: Untagged
@@ -235,7 +236,7 @@ MonoBehaviour:
     quantity: 30
   - type: 3
     quantity: 20
-  maxLife: 1
+  maxLife: 50
   icon: {fileID: 0}
   Name: Caserne
   attacker: {fileID: 0}
@@ -261,3 +262,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Destination: {fileID: 4235019258063014253}
+--- !u!208 &6976979324000429171
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4235019258589471430}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Character : Entity
+public abstract class Character : Entity
 {
     public UnityEngine.AI.NavMeshAgent agent = null;
 
