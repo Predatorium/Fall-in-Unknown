@@ -13,6 +13,7 @@ public class UnitsManager : MonoBehaviour
     private List<Unit> units = new List<Unit>();
 
     [SerializeField] private GameObject UI = null;
+    public Transform Parent = null;
 
     private void Awake()
     {

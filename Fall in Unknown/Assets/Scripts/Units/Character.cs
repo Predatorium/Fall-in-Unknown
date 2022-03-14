@@ -48,28 +48,7 @@ public abstract class Character : Entity
 
     protected virtual void Attacker()
     {
-        if (!attacker.myTarget)
-        {
-            if (agent.velocity == Vector3.zero)
-            {
-                Collider[] colliders = Physics.OverlapSphere(transform.position, attacker.detectionRange, attacker.mask);
-                foreach (Collider enemy in colliders)
-                {
-                    attacker.myTarget = enemy.GetComponent<Entity>();
-                }
-            }
-        }
-        else
-        {
-            if (!attacker.InReach())
-            {
-                SetDestination(attacker.myTarget.transform.position);
-            }
-            else
-            {
-                agent.ResetPath();
-            }
-        }
+
     }
 
     public void SetDestination(Vector3 destination)

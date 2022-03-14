@@ -23,7 +23,7 @@ public class RecrutUnit : MonoBehaviour
         Unit unit = RessourcesManager.Instance.BuyingEntity(name) as Unit;
         if (unit)
         {
-            Unit tmpunit = Instantiate(unit);
+            Unit tmpunit = Instantiate(unit, UnitsManager.Instance.Parent);
             RessourcesManager.Instance.Purchase(ref unit.Price());
             GameManager.Instance.MyEntity.Add(tmpunit);
             tmpunit.agent.Warp(transform.position - transform.forward * transform.localScale.z);

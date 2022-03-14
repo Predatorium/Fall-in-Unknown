@@ -139,11 +139,14 @@ MonoBehaviour:
   price:
   - type: 0
     quantity: 1
+    sprite: {fileID: 0}
   - type: 1
     quantity: 10
+    sprite: {fileID: 0}
   - type: 3
     quantity: 2
-  maxLife: 10
+    sprite: {fileID: 0}
+  maxLife: 20
   icon: {fileID: 0}
   Name: Warrior
   attacker: {fileID: 1679421848792679110}
@@ -166,8 +169,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackPrefab: {fileID: 0}
   myTarget: {fileID: 0}
-  coolDown_Attack: 2
-  damages: 1
+  coolDown_Attack: 1
+  damages: 5
   attackRange: 1
   detectionRange: 10
   mask:

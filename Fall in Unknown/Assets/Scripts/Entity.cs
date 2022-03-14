@@ -30,7 +30,7 @@ public abstract class Entity : MonoBehaviour
     // Start is called before the first frame update
     protected virtual void Start()
     {
-        UILife = Instantiate(prefabsUILife, GameManager.Instance.canvas.transform);
+        UILife = Instantiate(prefabsUILife, GameManager.Instance.ParentUI);
         UILife.owner = this;
     }
 
@@ -100,6 +100,10 @@ public abstract class Entity : MonoBehaviour
             {
                 GameManager.Instance.MyEntity.Remove(this);
             }
+
         }
+
+        if (UILife)
+            Destroy(UILife.gameObject);
     }
 }

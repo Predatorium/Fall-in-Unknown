@@ -9,8 +9,11 @@ public class RessourcesManager : MonoBehaviour
     public static RessourcesManager Instance = null;
     public Ressources[] ressources = null;
 
-    [SerializeField] private List<Entity> prefabsEntities = null;
     [SerializeField] private TextMeshProUGUI[] resourceNb = null;
+    [SerializeField] private List<Entity> prefabsEntities = null;
+
+    public Transform prefabsParentUIResource = null;
+    public UIResource prefabsResourceGroup = null;
 
     private void Awake()
     {

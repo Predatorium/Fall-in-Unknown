@@ -25,7 +25,7 @@ public class BuildingManager : MonoBehaviour
     [SerializeField] private Build prefabBuild = null;
     private Build build = null;
 
-    [SerializeField] private int SizeGrid = 4;
+    public Transform Parent = null;
 
     private void Awake()
     {
@@ -94,7 +94,9 @@ public class BuildingManager : MonoBehaviour
     public void RecrutUnit(string name)
     {
         for (int i = 0; i < buildings.Count; i++)
+        {
             buildings[i].recrut.RecrutingUnit(name);
+        }
     }
 
     public void ConstructBuilding(string name)
@@ -102,10 +104,10 @@ public class BuildingManager : MonoBehaviour
         Building building = RessourcesManager.Instance.BuyingEntity(name) as Building;
         if (building)
         {
-            build = Instantiate(prefabBuild);
+            build = Instantiate(prefabBuild, Parent);
             GameManager.Instance.MyEntity.Add(build);
             build.prefabsBuilding = building;
-            build.UI = 
+            build.UI = UIs.Where(u => u.Name == "Build").First().UI;
             build.transfertUI = UIs.Where(u => u.Name == name).First().UI;
         }
     }

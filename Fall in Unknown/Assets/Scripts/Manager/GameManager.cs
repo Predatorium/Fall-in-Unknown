@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     private float timeDoubleClick = 0f;
 
     public Transform InfoEntity = null;
+    public Transform ParentUI = null;
 
     private void Awake()
     {

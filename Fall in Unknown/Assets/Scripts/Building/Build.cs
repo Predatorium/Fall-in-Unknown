@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Build : Building
 {
@@ -31,6 +32,9 @@ public class Build : Building
         maxLife = prefabsBuilding.maxLife / 4;
         Price() = prefabsBuilding.Price();
 
+        Product = prefabsBuilding.Product;
+        ContiniousProduct = prefabsBuilding.ContiniousProduct;
+
         base.Awake();
     }
 
@@ -41,15 +45,23 @@ public class Build : Building
         {
             timer += Time.deltaTime;
 
+            if (resourcesUI)
+            {
+                Vector3 screenPos = GameManager.Instance.cam.WorldToScreenPoint(transform.position) + new Vector3(0, 40);
+                resourcesUI.transform.localPosition = new Vector3(screenPos.x - (Screen.width / 2), screenPos.y - (Screen.height / 2), 0f) / GameManager.Instance.canvas.scaleFactor;
+            }
+
             if (timer >= DelayBuild)
             {
-                Building building = Instantiate(prefabsBuilding);
+                Building building = Instantiate(prefabsBuilding, BuildingManager.Instance.Parent);
                 GameManager.Instance.MyEntity.Add(building);
                 building.transform.position = transform.position;
                 building.transform.rotation = transform.rotation;
                 building.UI = transfertUI;
 
                 Destroy(gameObject);
+                Destroy(resourcesUI.gameObject);
+                GameManager.Instance.MyEntity.Remove(this);
             }
         }
         else
@@ -66,11 +78,33 @@ public class Build : Building
     public void Placing()
     {
         IsPlace = true;
-        base.Start();
         gameObject.layer = LayerMask.NameToLayer("Player");
 
-        UIBuild tmp = Instantiate(prefabsUIBuild, GameManager.Instance.canvas.transform);
+        UIBuild tmp = Instantiate(prefabsUIBuild, GameManager.Instance.ParentUI);
         tmp.owner = this;
+
+        if (ContiniousProduct.Length > 0 || Product.Length > 0)
+        {
+            resourcesUI = Instantiate(RessourcesManager.Instance.prefabsParentUIResource, GameManager.Instance.ParentUI).gameObject;
+
+            foreach (Ressources uI in Product)
+            {
+                UIResource tmp2 = Instantiate(RessourcesManager.Instance.prefabsResourceGroup, resourcesUI.transform);
+                tmp2.text.text = "+" + uI.quantity;
+                tmp2.image.sprite = RessourcesManager.Instance.ressources.Where(o => o.type == uI.type).First().sprite;
+            }
+
+            foreach (Ressources uI in ContiniousProduct)
+            {
+                UIResource tmp2 = Instantiate(RessourcesManager.Instance.prefabsResourceGroup, resourcesUI.transform);
+                tmp2.text.text = "+" + uI.quantity;
+                tmp2.image.sprite = RessourcesManager.Instance.ressources.Where(o => o.type == uI.type).First().sprite;
+            }
+        }
+
+        resourcesUI.SetActive(true);
+        resourcesUI.SetActive(false);
+
     }
 
     public float Progress()
@@ -81,10 +115,5 @@ public class Build : Building
     public void Rotate()
     {
         transform.Rotate(new Vector3(0f, 45f, 0f));
-    }
-
-    public override void ChangeHealth(int damages)
-    {
-        base.ChangeHealth(damages);
     }
 }

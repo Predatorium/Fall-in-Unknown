@@ -223,9 +223,11 @@ MonoBehaviour:
   price:
   - type: 0
     quantity: 2
+    sprite: {fileID: 0}
   - type: 1
     quantity: 10
-  maxLife: 20
+    sprite: {fileID: 0}
+  maxLife: 10
   icon: {fileID: 0}
   Name: Archer
   attacker: {fileID: 9170725356453627326}
@@ -248,7 +250,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackPrefab: {fileID: 909882510401093490, guid: c6e59b7732ee4bf4d965cbad58c86c41, type: 3}
   myTarget: {fileID: 0}
-  coolDown_Attack: 1
+  coolDown_Attack: 2
   damages: 5
   attackRange: 10
   detectionRange: 20
