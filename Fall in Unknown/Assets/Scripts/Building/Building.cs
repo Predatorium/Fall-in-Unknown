@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.UI;
 
 public class Building : Entity
 {
@@ -14,7 +15,7 @@ public class Building : Entity
     public Ressources[] ContiniousProduct = null;
     private float timeForProduct = 0f;
 
-    [SerializeField] protected GameObject resourcesUI = null;
+    [SerializeField] protected RectTransform resourcesUI = null;
 
     protected override void Awake()
     {
@@ -32,7 +33,7 @@ public class Building : Entity
 
         if (ContiniousProduct.Length > 0)
         {
-            resourcesUI = Instantiate(RessourcesManager.Instance.prefabsParentUIResource, GameManager.Instance.ParentUI).gameObject;
+            resourcesUI = Instantiate(RessourcesManager.Instance.prefabsParentUIResource, GameManager.Instance.ParentUI);
 
             foreach (Ressources uI in ContiniousProduct)
             {
@@ -40,6 +41,8 @@ public class Building : Entity
                 tmp.text.text = "+" + uI.quantity;
                 tmp.image.sprite = RessourcesManager.Instance.ressources.Where(o => o.type == uI.type).First().sprite;
             }
+
+            StartCoroutine(GameManager.RefreschContentSize(resourcesUI.gameObject));
         }
     }
 
@@ -47,14 +50,14 @@ public class Building : Entity
     {
         base.OnSelect();
         if (resourcesUI)
-            resourcesUI.SetActive(true);
+            resourcesUI.gameObject.SetActive(true);
     }
 
     public override void OnUnselect()
     {
         base.OnUnselect();
         if (resourcesUI)
-            resourcesUI.SetActive(false);
+            resourcesUI.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -83,6 +86,7 @@ public class Building : Entity
 
     private void OnDestroy()
     {
-        Destroy(resourcesUI.gameObject);
+        if (resourcesUI)
+            Destroy(resourcesUI.gameObject);
     }
 }

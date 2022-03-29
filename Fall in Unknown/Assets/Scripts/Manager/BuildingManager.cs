@@ -88,7 +88,6 @@ public class BuildingManager : MonoBehaviour
                 UI = null;
             }
         }
-        
     }
 
     public void RecrutUnit(string name)

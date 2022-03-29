@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.UI;
 
 public class Build : Building
 {
@@ -85,26 +86,26 @@ public class Build : Building
 
         if (ContiniousProduct.Length > 0 || Product.Length > 0)
         {
-            resourcesUI = Instantiate(RessourcesManager.Instance.prefabsParentUIResource, GameManager.Instance.ParentUI).gameObject;
+            resourcesUI = Instantiate(RessourcesManager.Instance.prefabsParentUIResource, GameManager.Instance.ParentUI);
+
+            UIResource tmp2 = null;
 
             foreach (Ressources uI in Product)
             {
-                UIResource tmp2 = Instantiate(RessourcesManager.Instance.prefabsResourceGroup, resourcesUI.transform);
+                tmp2 = Instantiate(RessourcesManager.Instance.prefabsResourceGroup, resourcesUI.transform);
                 tmp2.text.text = "+" + uI.quantity;
                 tmp2.image.sprite = RessourcesManager.Instance.ressources.Where(o => o.type == uI.type).First().sprite;
             }
 
             foreach (Ressources uI in ContiniousProduct)
             {
-                UIResource tmp2 = Instantiate(RessourcesManager.Instance.prefabsResourceGroup, resourcesUI.transform);
+                tmp2 = Instantiate(RessourcesManager.Instance.prefabsResourceGroup, resourcesUI.transform);
                 tmp2.text.text = "+" + uI.quantity;
                 tmp2.image.sprite = RessourcesManager.Instance.ressources.Where(o => o.type == uI.type).First().sprite;
             }
+
+            resourcesUI.sizeDelta = new Vector2(tmp2.text.rectTransform.sizeDelta.x + tmp2.image.rectTransform.sizeDelta.x, 0f);
         }
-
-        resourcesUI.SetActive(true);
-        resourcesUI.SetActive(false);
-
     }
 
     public float Progress()

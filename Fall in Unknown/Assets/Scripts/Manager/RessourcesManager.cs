@@ -12,7 +12,7 @@ public class RessourcesManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI[] resourceNb = null;
     [SerializeField] private List<Entity> prefabsEntities = null;
 
-    public Transform prefabsParentUIResource = null;
+    public RectTransform prefabsParentUIResource = null;
     public UIResource prefabsResourceGroup = null;
 
     private void Awake()

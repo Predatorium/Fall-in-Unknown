@@ -201,4 +201,12 @@ public class GameManager : MonoBehaviour
         UnitsManager.Instance.ClearUnits();
         BuildingManager.Instance.ClearBuildings();
     }
+
+    public static IEnumerator RefreschContentSize(GameObject gameObject)
+    {
+        yield return null;
+        gameObject.SetActive(true);
+        yield return null;
+        gameObject.SetActive(false);
+    }
 }
