@@ -104,7 +104,8 @@ public class Build : Building
                 tmp2.image.sprite = RessourcesManager.Instance.ressources.Where(o => o.type == uI.type).First().sprite;
             }
 
-            resourcesUI.sizeDelta = new Vector2(tmp2.text.rectTransform.sizeDelta.x + tmp2.image.rectTransform.sizeDelta.x, 0f);
+            resourcesUI.sizeDelta = new Vector2(tmp2.GetComponent<RectTransform>().sizeDelta.x,
+                tmp2.GetComponent<RectTransform>().sizeDelta.y * (Product.Length + ContiniousProduct.Length) + 20f * (Product.Length + ContiniousProduct.Length - 1));
         }
     }
 

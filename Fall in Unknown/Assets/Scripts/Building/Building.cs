@@ -35,14 +35,17 @@ public class Building : Entity
         {
             resourcesUI = Instantiate(RessourcesManager.Instance.prefabsParentUIResource, GameManager.Instance.ParentUI);
 
+            UIResource tmp = null;
+
             foreach (Ressources uI in ContiniousProduct)
             {
-                UIResource tmp = Instantiate(RessourcesManager.Instance.prefabsResourceGroup, resourcesUI.transform);
+                tmp = Instantiate(RessourcesManager.Instance.prefabsResourceGroup, resourcesUI.transform);
                 tmp.text.text = "+" + uI.quantity;
                 tmp.image.sprite = RessourcesManager.Instance.ressources.Where(o => o.type == uI.type).First().sprite;
             }
 
-            StartCoroutine(GameManager.RefreschContentSize(resourcesUI.gameObject));
+            resourcesUI.sizeDelta = new Vector2(tmp.GetComponent<RectTransform>().sizeDelta.x,
+                tmp.GetComponent<RectTransform>().sizeDelta.y * ContiniousProduct.Length + 20f * (ContiniousProduct.Length - 1));
         }
     }
 
