@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using System.Linq;
 
 [System.Serializable]
 public class Ressources
@@ -20,9 +20,8 @@ public class Ressources
     public int quantity = 0;
     public Sprite sprite = null;
 
-    public Ressources(Type _type, int _quantity)
+    public int CheckRessource(Vector3 position)
     {
-        type = _type;
-        quantity = _quantity;
+        return Physics.OverlapSphere(position, 30f, 1 << LayerMask.NameToLayer("Resource")).Select(c => c.CompareTag(type.ToString())).Count();
     }
 }

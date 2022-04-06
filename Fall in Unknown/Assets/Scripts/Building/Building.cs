@@ -9,6 +9,7 @@ public class Building : Entity
     public GameObject UI = null;
     public RecrutUnit recrut = null;
 
+
     public float DelayBuild = 0f;
 
     public Ressources[] Product = null;
