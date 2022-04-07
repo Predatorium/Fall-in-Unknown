@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public abstract class Entity : MonoBehaviour
+public class Entity : MonoBehaviour
 {
-    [SerializeField] private Ressources[] price = null;
+    public Resource[] price = null;
     public int maxLife = 1;
     [SerializeField] private Sprite icon = null;
     public string Name = "";
@@ -59,9 +59,9 @@ public abstract class Entity : MonoBehaviour
         Destroy(myInfo.gameObject);
     }
 
-    public bool Buyable(ref Ressources[] resources)
+    public bool Buyable(ref Resource[] resources)
     {
-        foreach (Ressources resource in price)
+        foreach (Resource resource in price)
         {
             if (resources.Where(r => (r.type == resource.type)).First().quantity < resource.quantity)
             {
@@ -72,7 +72,7 @@ public abstract class Entity : MonoBehaviour
         return true;
     }
 
-    public ref Ressources[] Price()
+    public ref Resource[] Price()
     {
         return ref price;
     }

@@ -115,6 +115,7 @@ MonoBehaviour:
   price:
   - type: 3
     quantity: 20
+    sprite: {fileID: 0}
   maxLife: 40
   icon: {fileID: 0}
   Name: Ferme
@@ -130,6 +131,8 @@ MonoBehaviour:
   ContiniousProduct:
   - type: 1
     quantity: 5
+    sprite: {fileID: 0}
+  resourcesUI: {fileID: 0}
 --- !u!208 &8687057142295471408
 NavMeshObstacle:
   m_ObjectHideFlags: 0

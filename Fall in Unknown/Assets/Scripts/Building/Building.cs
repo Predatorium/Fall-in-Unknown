@@ -9,11 +9,10 @@ public class Building : Entity
     public GameObject UI = null;
     public RecrutUnit recrut = null;
 
-
     public float DelayBuild = 0f;
 
-    public Ressources[] Product = null;
-    public Ressources[] ContiniousProduct = null;
+    public Resource[] Product = null;
+    public Resource[] ContiniousProduct = null;
     private float timeForProduct = 0f;
 
     [SerializeField] protected RectTransform resourcesUI = null;
@@ -29,20 +28,19 @@ public class Building : Entity
         base.Start();
         if (Product.Length > 0)
         {
-            RessourcesManager.Instance.Sell(ref Product);
+            ResourcesManager.Instance.Sell(ref Product);
         }
 
         if (ContiniousProduct.Length > 0)
         {
-            resourcesUI = Instantiate(RessourcesManager.Instance.prefabsParentUIResource, GameManager.Instance.ParentUI);
+            resourcesUI = Instantiate(ResourcesManager.Instance.prefabsParentUIResource, GameManager.Instance.ParentUI);
 
             UIResource tmp = null;
 
-            foreach (Ressources uI in ContiniousProduct)
+            foreach (Resource uI in ContiniousProduct)
             {
-                tmp = Instantiate(RessourcesManager.Instance.prefabsResourceGroup, resourcesUI.transform);
-                tmp.text.text = "+" + uI.quantity;
-                tmp.image.sprite = RessourcesManager.Instance.ressources.Where(o => o.type == uI.type).First().sprite;
+                tmp = Instantiate(ResourcesManager.Instance.prefabsResourceGroup, resourcesUI.transform);
+                tmp.ressource = uI;
             }
 
             resourcesUI.sizeDelta = new Vector2(tmp.GetComponent<RectTransform>().sizeDelta.x,
@@ -78,7 +76,7 @@ public class Building : Entity
             if (timeForProduct >= 60f)
             {
                 timeForProduct = 0f;
-                RessourcesManager.Instance.Sell(ref ContiniousProduct);
+                ResourcesManager.Instance.Sell(ref ContiniousProduct);
             }
         }
     }

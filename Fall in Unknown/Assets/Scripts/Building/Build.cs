@@ -31,27 +31,22 @@ public class Build : Building
         Product = prefabsBuilding.Product;
         ContiniousProduct = prefabsBuilding.ContiniousProduct;
 
-        UIBuild tmp = Instantiate(prefabsUIBuild, GameManager.Instance.ParentUI);
-        tmp.owner = this;
-
         if (ContiniousProduct.Length > 0 || Product.Length > 0)
         {
-            resourcesUI = Instantiate(RessourcesManager.Instance.prefabsParentUIResource, GameManager.Instance.ParentUI);
+            resourcesUI = Instantiate(ResourcesManager.Instance.prefabsParentUIResource, GameManager.Instance.ParentUI);
 
             UIResource tmp2 = null;
 
-            foreach (Ressources uI in Product)
+            foreach (Resource uI in Product)
             {
-                tmp2 = Instantiate(RessourcesManager.Instance.prefabsResourceGroup, resourcesUI.transform);
-                tmp2.text.text = "+" + uI.quantity;
-                tmp2.image.sprite = RessourcesManager.Instance.ressources.Where(o => o.type == uI.type).First().sprite;
+                tmp2 = Instantiate(ResourcesManager.Instance.prefabsResourceGroup, resourcesUI.transform);
+                tmp2.ressource = uI;
             }
 
-            foreach (Ressources uI in ContiniousProduct)
+            foreach (Resource uI in ContiniousProduct)
             {
-                tmp2 = Instantiate(RessourcesManager.Instance.prefabsResourceGroup, resourcesUI.transform);
-                tmp2.text.text = "+" + uI.quantity;
-                tmp2.image.sprite = RessourcesManager.Instance.ressources.Where(o => o.type == uI.type).First().sprite;
+                tmp2 = Instantiate(ResourcesManager.Instance.prefabsResourceGroup, resourcesUI.transform);
+                tmp2.ressource = uI;
             }
 
             resourcesUI.sizeDelta = new Vector2(tmp2.GetComponent<RectTransform>().sizeDelta.x,
@@ -71,8 +66,11 @@ public class Build : Building
             Vector3 screenPos = GameManager.Instance.cam.WorldToScreenPoint(transform.position) + new Vector3(0, 40);
             resourcesUI.transform.localPosition = new Vector3(screenPos.x - (Screen.width / 2), screenPos.y - (Screen.height / 2), 0f) / GameManager.Instance.canvas.scaleFactor;
 
-            foreach (Ressources ressource in ContiniousProduct)
-                ressource.quantity = ressource.CheckRessource(transform.position);
+            foreach (Resource ressource in ContiniousProduct)
+            {
+                if (ressource.type != Resource.Type.Or)
+                    ressource.quantity = ressource.CheckRessource(transform.position);
+            }
         }
 
         if (IsPlace)
@@ -108,6 +106,9 @@ public class Build : Building
     {
         IsPlace = true;
         gameObject.layer = LayerMask.NameToLayer("Player");
+
+        UIBuild tmp = Instantiate(prefabsUIBuild, GameManager.Instance.ParentUI);
+        tmp.owner = this;
     }
 
     public float Progress()

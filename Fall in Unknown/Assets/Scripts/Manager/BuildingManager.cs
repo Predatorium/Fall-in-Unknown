@@ -48,7 +48,7 @@ public class BuildingManager : MonoBehaviour
             if (Input.GetMouseButtonDown(0) && build.IsPlaceable)
             {
                 build.Placing();
-                RessourcesManager.Instance.Purchase(ref build.prefabsBuilding.Price());
+                ResourcesManager.Instance.Purchase(ref build.prefabsBuilding.Price());
                 build = null;
             }
             if (Input.GetMouseButtonDown(1))
@@ -100,7 +100,7 @@ public class BuildingManager : MonoBehaviour
 
     public void ConstructBuilding(string name)
     {
-        Building building = RessourcesManager.Instance.BuyingEntity(name) as Building;
+        Building building = ResourcesManager.Instance.BuyingEntity(name) as Building;
         if (building)
         {
             build = Instantiate(prefabBuild, Parent);
@@ -116,7 +116,7 @@ public class BuildingManager : MonoBehaviour
         while (buildings.Count > 0)
         {
             Building tmp = buildings[0];
-            RessourcesManager.Instance.Sell(ref tmp.Price());
+            ResourcesManager.Instance.Sell(ref tmp.Price());
             buildings.Remove(buildings[0]);
             Destroy(tmp.gameObject);
         }

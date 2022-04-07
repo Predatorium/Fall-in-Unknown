@@ -232,10 +232,13 @@ MonoBehaviour:
   price:
   - type: 0
     quantity: 3
+    sprite: {fileID: 21300000, guid: ccf84b448737a034984a9e4c832ee4ea, type: 3}
   - type: 1
     quantity: 30
+    sprite: {fileID: 21300000, guid: ccf84b448737a034984a9e4c832ee4ea, type: 3}
   - type: 3
     quantity: 20
+    sprite: {fileID: 21300000, guid: ccf84b448737a034984a9e4c832ee4ea, type: 3}
   maxLife: 50
   icon: {fileID: 0}
   Name: Caserne
@@ -249,6 +252,7 @@ MonoBehaviour:
   DelayBuild: 20
   Product: []
   ContiniousProduct: []
+  resourcesUI: {fileID: 0}
 --- !u!114 &4235019258589471431
 MonoBehaviour:
   m_ObjectHideFlags: 0

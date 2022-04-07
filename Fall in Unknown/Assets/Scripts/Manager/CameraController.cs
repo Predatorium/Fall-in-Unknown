@@ -8,16 +8,23 @@ public class CameraController : MonoBehaviour
 
     [SerializeField] private float speed = 1f;
     [SerializeField] private float zoomSpeed = 10f;
-    [SerializeField] private Vector2 zoomValues;
+    [SerializeField] private Vector2 zoomValues = Vector2.zero;
     private float groundDistance = 0f;
 
     [SerializeField] private LayerMask mask;
+    private float timeInScreen = 0f;
 
     // Start is called before the first frame update
     void Start()
     {
         cam = Camera.main;
-        groundDistance = (zoomValues.x + zoomValues.y) / 2f;
+
+        Ray ray = new Ray(transform.position, cam.transform.forward);
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, ~mask))
+        {
+            groundDistance = Vector3.Distance(transform.position, hit.point);
+        }
+        groundDistance = Mathf.Clamp(groundDistance, zoomValues.x, zoomValues.y);
     }
 
     // Update is called once per frame
@@ -33,22 +40,19 @@ public class CameraController : MonoBehaviour
         Vector3 move = (transform.right * Input.GetAxis("Horizontal") + transform.forward * Input.GetAxis("Vertical"));
         transform.position += move * speed * Time.deltaTime;
 
-        //if (cam.ScreenToViewportPoint(Input.mousePosition).x < 0.1f)
-        //{
-        //    transform.position -= transform.right * speed * Time.deltaTime;
-        //}
-        //if (cam.ScreenToViewportPoint(Input.mousePosition).x > 0.9f)
-        //{
-        //    transform.position += transform.right * speed * Time.deltaTime;
-        //}
-        //if (cam.ScreenToViewportPoint(Input.mousePosition).y < 0.1f)
-        //{
-        //    transform.position -= transform.forward * speed * Time.deltaTime;
-        //}
-        //if (cam.ScreenToViewportPoint(Input.mousePosition).y > 0.9f)
-        //{
-        //    transform.position += transform.forward * speed * Time.deltaTime;
-        //}
+        Bounds screenMin = new Bounds(new Vector3(0.5f, 0.5f), new Vector3(0.95f, 0.95f));
+        Bounds screenMax = new Bounds(new Vector3(0.5f, 0.5f), new Vector3(1f, 1f));
+        Vector3 viewPos = cam.ScreenToViewportPoint(Input.mousePosition);
+        if (!screenMin.Contains(viewPos) && screenMax.Contains(viewPos))
+        {
+            timeInScreen += Time.deltaTime;
+            if (timeInScreen > 0.1f)
+                transform.position += (viewPos - new Vector3(0.5f, 0.5f)).normalized * speed * Time.deltaTime;
+        }
+        else
+        {
+            timeInScreen = 0f;
+        }
     }
 
     private void Zoom()
