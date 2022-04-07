@@ -87,14 +87,15 @@ public class Build : Building
                 building.UI = transfertUI;
 
                 Destroy(gameObject);
-                Destroy(resourcesUI.gameObject);
+                if (resourcesUI)
+                    Destroy(resourcesUI.gameObject);
                 GameManager.Instance.MyEntity.Remove(this);
             }
         }
         else
         {   
             IsPlaceable = true;
-            Collider[] colliders = Physics.OverlapBox(transform.position, collider.bounds.size / 2f, transform.rotation, mask);
+            Collider[] colliders = Physics.OverlapBox(transform.position, collider.bounds.size / 2.1f, transform.rotation, mask);
             if (colliders.Length > 1)
             {
                 IsPlaceable = false;
@@ -109,6 +110,11 @@ public class Build : Building
 
         UIBuild tmp = Instantiate(prefabsUIBuild, GameManager.Instance.ParentUI);
         tmp.owner = this;
+
+        if (resourcesUI)
+            resourcesUI.gameObject.SetActive(false);
+
+        GameManager.Instance.MyEntity.Add(this);
     }
 
     public float Progress()

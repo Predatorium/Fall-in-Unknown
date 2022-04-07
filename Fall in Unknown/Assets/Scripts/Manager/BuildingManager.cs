@@ -26,6 +26,7 @@ public class BuildingManager : MonoBehaviour
     private Build build = null;
 
     public Transform Parent = null;
+    [SerializeField] private LayerMask mask;
 
     private void Awake()
     {
@@ -49,7 +50,7 @@ public class BuildingManager : MonoBehaviour
             {
                 build.Placing();
                 ResourcesManager.Instance.Purchase(ref build.prefabsBuilding.Price());
-                build = null;
+                ConstructBuilding(build.prefabsBuilding.name);
             }
             if (Input.GetMouseButtonDown(1))
             {
@@ -104,10 +105,14 @@ public class BuildingManager : MonoBehaviour
         if (building)
         {
             build = Instantiate(prefabBuild, Parent);
-            GameManager.Instance.MyEntity.Add(build);
             build.prefabsBuilding = building;
             build.UI = UIs.Where(u => u.Name == "Build").First().UI;
             build.transfertUI = UIs.Where(u => u.Name == name).First().UI;
+        }
+        else if (build)
+        {
+            Destroy(build.gameObject);
+            build = null;
         }
     }
 
@@ -128,7 +133,7 @@ public class BuildingManager : MonoBehaviour
     private Vector3 Raycast()
     {
         Ray ray = GameManager.Instance.cam.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, ~((1 << LayerMask.NameToLayer("Player")) | (1 << LayerMask.NameToLayer("Build")))))
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, ~mask))
         {
             return new Vector3((int)(hit.point.x / 2f) * 2f, hit.point.y, (int)(hit.point.z / 2f) * 2f);
         }

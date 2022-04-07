@@ -43,7 +43,7 @@ public class Entity : MonoBehaviour
     public virtual void OnSelect()
     {
         isSelected = true;
-        UISelected.SetActive(isSelected);
+            UISelected.SetActive(isSelected);
 
         myInfo = Instantiate(prefabsInfo, GameManager.Instance.InfoEntity);
         myInfo.owner = this;

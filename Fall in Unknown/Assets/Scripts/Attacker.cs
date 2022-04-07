@@ -27,9 +27,9 @@ public class Attacker : MonoBehaviour
     {
         if (myTarget)
         {
-            if (coolDown <= 0f && InReach())
+            if (coolDown >= 1f / coolDown_Attack && InReach())
             {
-                coolDown = coolDown_Attack;
+                coolDown = 0f;
                 if (attackPrefab)
                 {
                     Attack attack = Instantiate(attackPrefab);
@@ -47,9 +47,9 @@ public class Attacker : MonoBehaviour
                     }
                 }
             }
-            else if (coolDown > 0)
+            else if (coolDown < 1f / coolDown_Attack)
             {
-                coolDown -= Time.deltaTime;
+                coolDown += Time.deltaTime;
             }
         }
     }
