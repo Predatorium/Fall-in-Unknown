@@ -29,8 +29,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4556904155474581577}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.3, y: 0.5, z: 25.36}
-  m_LocalScale: {x: 2, y: 1, z: 2}
+  m_LocalPosition: {x: 17.3, y: 1, z: 25.36}
+  m_LocalScale: {x: 4, y: 2, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2476032153996833039}
@@ -115,6 +115,7 @@ MonoBehaviour:
   price:
   - type: 3
     quantity: 20
+    sprite: {fileID: 0}
   maxLife: 25
   icon: {fileID: 0}
   Name: Habitation
@@ -129,9 +130,12 @@ MonoBehaviour:
   Product:
   - type: 0
     quantity: 10
+    sprite: {fileID: 0}
   ContiniousProduct:
   - type: 5
     quantity: 5
+    sprite: {fileID: 0}
+  resourcesUI: {fileID: 0}
 --- !u!208 &2310165908223836028
 NavMeshObstacle:
   m_ObjectHideFlags: 0

@@ -114,7 +114,7 @@ Transform:
   m_GameObject: {fileID: 7320963517753812080}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 2.1, z: 0}
-  m_LocalScale: {x: 8, y: 4, z: 8}
+  m_LocalScale: {x: 12, y: 6, z: 12}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8716870493005810998}
@@ -199,6 +199,7 @@ MonoBehaviour:
   price:
   - type: 0
     quantity: 200
+    sprite: {fileID: 0}
   maxLife: 100
   icon: {fileID: 0}
   Name: Forum
@@ -213,13 +214,18 @@ MonoBehaviour:
   Product:
   - type: 0
     quantity: 50
+    sprite: {fileID: 0}
   - type: 1
     quantity: 100
+    sprite: {fileID: 0}
   - type: 2
     quantity: 100
+    sprite: {fileID: 0}
   - type: 3
     quantity: 100
+    sprite: {fileID: 0}
   ContiniousProduct: []
+  resourcesUI: {fileID: 0}
 --- !u!208 &8839284041396585285
 NavMeshObstacle:
   m_ObjectHideFlags: 0

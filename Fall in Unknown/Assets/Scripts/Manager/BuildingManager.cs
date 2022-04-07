@@ -43,7 +43,7 @@ public class BuildingManager : MonoBehaviour
     {
         if (build)
         {
-            build.transform.position = Raycast() + new Vector3(0f, build.transform.localScale.y / 2f + 0.001f, 0f);
+            build.transform.position = Raycast() + build.transform.localScale / 2f + new Vector3(0f, 0.001f, 0f);
 
             if (Input.GetMouseButtonDown(0) && build.IsPlaceable)
             {
@@ -130,7 +130,7 @@ public class BuildingManager : MonoBehaviour
         Ray ray = GameManager.Instance.cam.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, ~((1 << LayerMask.NameToLayer("Player")) | (1 << LayerMask.NameToLayer("Build")))))
         {
-            return hit.point;
+            return new Vector3((int)(hit.point.x / 2f) * 2f, hit.point.y, (int)(hit.point.z / 2f) * 2f);
         }
 
         return Vector3.zero;

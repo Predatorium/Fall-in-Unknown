@@ -94,7 +94,7 @@ public class Build : Building
         else
         {   
             IsPlaceable = true;
-            Collider[] colliders = Physics.OverlapSphere(transform.position, collider.bounds.size.x * 2f, mask);
+            Collider[] colliders = Physics.OverlapBox(transform.position, collider.bounds.size / 2f, transform.rotation, mask);
             if (colliders.Length > 1)
             {
                 IsPlaceable = false;
@@ -118,6 +118,6 @@ public class Build : Building
 
     public void Rotate()
     {
-        transform.Rotate(new Vector3(0f, 45f, 0f));
+        transform.Rotate(new Vector3(0f, 90f, 0f));
     }
 }

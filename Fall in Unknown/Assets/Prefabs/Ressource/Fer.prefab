@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5285442570868412538}
   - component: {fileID: 6974486502318311771}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Fer
-  m_TagString: Untagged
+  m_TagString: Fer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -59,9 +59,9 @@ GameObject:
   - component: {fileID: 7367273508815847070}
   - component: {fileID: 5804917367921107955}
   - component: {fileID: 6567852313840167375}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Fer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -142,9 +142,9 @@ GameObject:
   - component: {fileID: 1553282599521953776}
   - component: {fileID: 3901816162354264522}
   - component: {fileID: 7465723016986249763}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Cube (1)
-  m_TagString: Untagged
+  m_TagString: Fer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -225,9 +225,9 @@ GameObject:
   - component: {fileID: 6372870486724779918}
   - component: {fileID: 1515192274703086391}
   - component: {fileID: 5433378783948597946}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Cube (2)
-  m_TagString: Untagged
+  m_TagString: Fer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
