@@ -5,7 +5,7 @@ using System.Linq;
 
 public class Entity : MonoBehaviour
 {
-    public Resource[] price = null;
+    public List<ResourceCounter> price = null;
     public int maxLife = 1;
     [SerializeField] private Sprite icon = null;
     public string Name = "";
@@ -59,11 +59,11 @@ public class Entity : MonoBehaviour
         Destroy(myInfo.gameObject);
     }
 
-    public bool Buyable(ref Resource[] resources)
+    public bool Buyable(ref List<ResourceCounter> resources)
     {
-        foreach (Resource resource in price)
+        foreach (ResourceCounter counter in price)
         {
-            if (resources.Where(r => (r.type == resource.type)).First().quantity < resource.quantity)
+            if (resources.Where(r => (r.resource.type == counter.resource.type)).First().quantity < counter.quantity)
             {
                 return false;
             }
@@ -72,7 +72,7 @@ public class Entity : MonoBehaviour
         return true;
     }
 
-    public ref Resource[] Price()
+    public ref List<ResourceCounter> Price()
     {
         return ref price;
     }

@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1339980304082270756}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.3, y: 1, z: 25.36}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 4, y: 2, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -113,9 +113,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   price:
-  - type: 3
+  - resource: {fileID: 11400000, guid: 9d3a030c10e908243b4a748de565e17e, type: 2}
+    quantity: 4
+  - resource: {fileID: 11400000, guid: c97bf93cf99a251498277a8081b932e2, type: 2}
     quantity: 20
-    sprite: {fileID: 0}
   maxLife: 40
   icon: {fileID: 0}
   Name: Scierie
@@ -129,9 +130,8 @@ MonoBehaviour:
   DelayBuild: 10
   Product: []
   ContiniousProduct:
-  - type: 3
-    quantity: 0
-    sprite: {fileID: 0}
+  - resource: {fileID: 11400000, guid: 01c5abfca5babaf40988fdb49b9813c8, type: 2}
+    quantity: 1
   resourcesUI: {fileID: 0}
 --- !u!208 &6333212299181558653
 NavMeshObstacle:
@@ -145,7 +145,7 @@ NavMeshObstacle:
   m_Shape: 1
   m_Extents: {x: 0.5, y: 0.5, z: 0.5}
   m_MoveThreshold: 0.1
-  m_Carve: 0
+  m_Carve: 1
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5

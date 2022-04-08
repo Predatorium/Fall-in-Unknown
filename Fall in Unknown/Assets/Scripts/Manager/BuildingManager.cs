@@ -33,15 +33,12 @@ public class BuildingManager : MonoBehaviour
         Instance = this;
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {
+        if (UIs.Where(u => u.UI.activeSelf).Count() == 0)
+            AddBuilding(GameManager.Instance.MyEntity.Where(e => e.Name == "Forum").Select(e => e as Building).First());
+
         if (build)
         {
             build.transform.position = Raycast() + build.transform.localScale / 2f + new Vector3(0f, 0.001f, 0f);
@@ -49,7 +46,7 @@ public class BuildingManager : MonoBehaviour
             if (Input.GetMouseButtonDown(0) && build.IsPlaceable)
             {
                 build.Placing();
-                ResourcesManager.Instance.Purchase(ref build.prefabsBuilding.Price());
+                ResourcesManager.instance.Purchase(ref build.prefabsBuilding.Price());
                 ConstructBuilding(build.prefabsBuilding.name);
             }
             if (Input.GetMouseButtonDown(1))
@@ -101,7 +98,7 @@ public class BuildingManager : MonoBehaviour
 
     public void ConstructBuilding(string name)
     {
-        Building building = ResourcesManager.Instance.BuyingEntity(name) as Building;
+        Building building = ResourcesManager.instance.BuyingEntity(name) as Building;
         if (building)
         {
             build = Instantiate(prefabBuild, Parent);
@@ -121,7 +118,7 @@ public class BuildingManager : MonoBehaviour
         while (buildings.Count > 0)
         {
             Building tmp = buildings[0];
-            ResourcesManager.Instance.Sell(ref tmp.Price());
+            ResourcesManager.instance.Sell(ref tmp.Price());
             buildings.Remove(buildings[0]);
             Destroy(tmp.gameObject);
         }

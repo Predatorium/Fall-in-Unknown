@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public abstract class Character : Entity
 {
-    public UnityEngine.AI.NavMeshAgent agent = null;
+    public NavMeshAgent agent = null;
+    [SerializeField] private LayerMask mask;
 
     protected enum State
     {
@@ -28,11 +30,20 @@ public abstract class Character : Entity
         base.Update();
 
         if (attacker)
+        {
             Attacker();
 
-        if (Vector3.Distance(transform.position, agent.destination) < 1f && !attacker.myTarget)
+            if (Vector3.Distance(transform.position, agent.destination) < 1f && !attacker.myTarget)
+            {
+                agent.ResetPath();
+            }
+        }
+
+        if (Physics.OverlapSphere(agent.destination, 0.1f, mask).Length > 0 && new Vector3(agent.destination.x, transform.position.y, agent.destination.z) != transform.position)
         {
-            agent.ResetPath();
+            Vector3 pos = agent.destination + (transform.position - agent.destination).normalized;
+            if (NavMesh.SamplePosition(pos, out NavMeshHit hit, 15f, -1))
+                SetDestination(hit.position);
         }
     }
 

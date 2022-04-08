@@ -5,32 +5,21 @@ using System.Linq;
 using TMPro;
 
 [System.Serializable]
-public class Resource
+public class ResourceCounter
 {
-    public enum Type
-    {
-        Population,
-        Nourriture,
-        Energie,
-        Bois,
-        Fer,
-        Or,
-    }
-
-    public Type type = Type.Population;
+    public ResourceSO resource = null;
     public int quantity = 0;
-    public Sprite sprite = null;
 
     public int CheckRessource(Vector3 position)
     {
-        return Physics.OverlapSphere(position, 30f, 1 << LayerMask.NameToLayer("Resource")).Where(c => c.CompareTag(type.ToString())).Count();
+        return Physics.OverlapSphere(position, 12f, 1 << LayerMask.NameToLayer("Resource")).Where(c => c.CompareTag(resource.type.ToString())).Count();
     }
 }
 
 public class ResourcesManager : MonoBehaviour
 {
-    public static ResourcesManager Instance = null;
-    public Resource[] ressources = null;
+    public static ResourcesManager instance = null;
+    public List<ResourceCounter> resources = null;
 
     [SerializeField] private TextMeshProUGUI[] resourceNb = null;
     [SerializeField] private List<Entity> prefabsEntities = null;
@@ -40,7 +29,7 @@ public class ResourcesManager : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
+        instance = this;
     }
 
     // Start is called before the first frame update
@@ -57,16 +46,16 @@ public class ResourcesManager : MonoBehaviour
 
     private void ResourcesUpdate()
     {
-        for (int i = 0; i < ressources.Length; i++)
+        for (int i = 0; i < resources.Count; i++)
         {
-            resourceNb[i].text = ressources[i].quantity.ToString();
+            resourceNb[i].text = resources[i].quantity.ToString();
         }
     }
 
     public Entity BuyingEntity(string name)
     {
         int index = prefabsEntities.IndexOf(prefabsEntities.Where(e => (e.name == name)).First());
-        if (prefabsEntities[index].Buyable(ref ressources))
+        if (prefabsEntities[index].Buyable(ref resources))
         {
             return prefabsEntities[index];
         }
@@ -74,25 +63,25 @@ public class ResourcesManager : MonoBehaviour
         return null;
     }
 
-    public void Purchase(ref Resource[] price)
+    public void Purchase(ref List<ResourceCounter> price)
     {
-        foreach (Resource p in price)
+        foreach (ResourceCounter p in price)
         {
-            Resource tmp = ressources.Where(r => r.type == p.type).First();
-            int index = System.Array.IndexOf(ressources, tmp);
-            ressources[index].quantity -= p.quantity;
+            ResourceCounter tmp = resources.Where(r => r.resource.type == p.resource.type).First();
+            int index = resources.IndexOf(tmp);
+            resources[index].quantity -= p.quantity;
         }
 
         ResourcesUpdate();
     }
 
-    public void Sell(ref Resource[] price)
+    public void Sell(ref List<ResourceCounter> price)
     {
-        foreach (Resource p in price)
+        foreach (ResourceCounter p in price)
         {
-            Resource tmp = ressources.Where(r => r.type == p.type).First();
-            int index = System.Array.IndexOf(ressources, tmp);
-            ressources[index].quantity += p.quantity;
+            ResourceCounter tmp = resources.Where(r => r.resource.type == p.resource.type).First();
+            int index = resources.IndexOf(tmp);
+            resources[index].quantity += p.quantity;
         }
 
         ResourcesUpdate();

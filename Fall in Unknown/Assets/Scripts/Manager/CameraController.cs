@@ -37,8 +37,7 @@ public class CameraController : MonoBehaviour
 
     private void Moving()
     {
-        Vector3 move = (transform.right * Input.GetAxis("Horizontal") + transform.forward * Input.GetAxis("Vertical"));
-        transform.position += move * speed * Time.deltaTime;
+        Vector3 move = (transform.right * Input.GetAxis("Horizontal") + transform.forward * Input.GetAxis("Vertical")).normalized;
 
         Bounds screenMin = new Bounds(new Vector3(0.5f, 0.5f), new Vector3(0.95f, 0.95f));
         Bounds screenMax = new Bounds(new Vector3(0.5f, 0.5f), new Vector3(1f, 1f));
@@ -47,12 +46,16 @@ public class CameraController : MonoBehaviour
         {
             timeInScreen += Time.deltaTime;
             if (timeInScreen > 0.1f)
-                transform.position += (viewPos - new Vector3(0.5f, 0.5f)).normalized * speed * Time.deltaTime;
+            {
+                Vector3 dir = new Vector3(viewPos.x - 0.5f, 0f, viewPos.y - 0.5f);
+                move = dir.normalized;
+            }
         }
         else
-        {
             timeInScreen = 0f;
-        }
+
+        transform.position += move * speed * Time.deltaTime;
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, 57.5f, 942.5f), transform.position.y, Mathf.Clamp(transform.position.z, -17f, 900f));
     }
 
     private void Zoom()

@@ -84,7 +84,7 @@ public class UnitsManager : MonoBehaviour
         while (units.Count > 0)
         {
             Unit tmp = units[0];
-            ResourcesManager.Instance.Sell(ref tmp.Price());
+            ResourcesManager.instance.Sell(ref tmp.Price());
             units.Remove(units[0]);
             Destroy(tmp.gameObject);
         }

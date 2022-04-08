@@ -11,8 +11,8 @@ public class Building : Entity
 
     public float DelayBuild = 0f;
 
-    public Resource[] Product = null;
-    public Resource[] ContiniousProduct = null;
+    public List<ResourceCounter> Product = null;
+    public List<ResourceCounter> ContiniousProduct = null;
     private float timeForProduct = 0f;
 
     [SerializeField] protected RectTransform resourcesUI = null;
@@ -26,25 +26,25 @@ public class Building : Entity
     protected override void Start()
     {
         base.Start();
-        if (Product.Length > 0)
+        if (Product.Count > 0)
         {
-            ResourcesManager.Instance.Sell(ref Product);
+            ResourcesManager.instance.Sell(ref Product);
         }
 
-        if (ContiniousProduct.Length > 0)
+        if (ContiniousProduct.Count > 0)
         {
-            resourcesUI = Instantiate(ResourcesManager.Instance.prefabsParentUIResource, GameManager.Instance.ParentUI);
+            resourcesUI = Instantiate(ResourcesManager.instance.prefabsParentUIResource, GameManager.Instance.ParentUI);
 
             UIResource tmp = null;
 
-            foreach (Resource uI in ContiniousProduct)
+            foreach (ResourceCounter uI in ContiniousProduct)
             {
-                tmp = Instantiate(ResourcesManager.Instance.prefabsResourceGroup, resourcesUI.transform);
+                tmp = Instantiate(ResourcesManager.instance.prefabsResourceGroup, resourcesUI.transform);
                 tmp.ressource = uI;
             }
 
             resourcesUI.sizeDelta = new Vector2(tmp.GetComponent<RectTransform>().sizeDelta.x,
-                tmp.GetComponent<RectTransform>().sizeDelta.y * ContiniousProduct.Length + 20f * (ContiniousProduct.Length - 1));
+                tmp.GetComponent<RectTransform>().sizeDelta.y * ContiniousProduct.Count + 20f * (ContiniousProduct.Count - 1));
         }
     }
 
@@ -66,7 +66,7 @@ public class Building : Entity
     protected override void Update()
     {
         base.Update();
-        if (ContiniousProduct.Length > 0)
+        if (ContiniousProduct.Count > 0)
         {
             timeForProduct += Time.deltaTime;
 
@@ -76,7 +76,7 @@ public class Building : Entity
             if (timeForProduct >= 60f)
             {
                 timeForProduct = 0f;
-                ResourcesManager.Instance.Sell(ref ContiniousProduct);
+                ResourcesManager.instance.Sell(ref ContiniousProduct);
             }
         }
     }

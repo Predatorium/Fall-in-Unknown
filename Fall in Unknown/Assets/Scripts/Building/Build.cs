@@ -29,28 +29,34 @@ public class Build : Building
         Price() = prefabsBuilding.Price();
 
         Product = prefabsBuilding.Product;
-        ContiniousProduct = prefabsBuilding.ContiniousProduct;
-
-        if (ContiniousProduct.Length > 0 || Product.Length > 0)
+        foreach (ResourceCounter resource in prefabsBuilding.ContiniousProduct)
         {
-            resourcesUI = Instantiate(ResourcesManager.Instance.prefabsParentUIResource, GameManager.Instance.ParentUI);
+            ResourceCounter counter = new ResourceCounter();
+            counter.resource = resource.resource;
+            counter.quantity = resource.quantity;
+            ContiniousProduct.Add(counter);
+        }
+
+        if (ContiniousProduct.Count > 0 || Product.Count > 0)
+        {
+            resourcesUI = Instantiate(ResourcesManager.instance.prefabsParentUIResource, GameManager.Instance.ParentUI);
 
             UIResource tmp2 = null;
 
-            foreach (Resource uI in Product)
+            foreach (ResourceCounter uI in Product)
             {
-                tmp2 = Instantiate(ResourcesManager.Instance.prefabsResourceGroup, resourcesUI.transform);
+                tmp2 = Instantiate(ResourcesManager.instance.prefabsResourceGroup, resourcesUI.transform);
                 tmp2.ressource = uI;
             }
 
-            foreach (Resource uI in ContiniousProduct)
+            foreach (ResourceCounter uI in ContiniousProduct)
             {
-                tmp2 = Instantiate(ResourcesManager.Instance.prefabsResourceGroup, resourcesUI.transform);
+                tmp2 = Instantiate(ResourcesManager.instance.prefabsResourceGroup, resourcesUI.transform);
                 tmp2.ressource = uI;
             }
 
             resourcesUI.sizeDelta = new Vector2(tmp2.GetComponent<RectTransform>().sizeDelta.x,
-                tmp2.GetComponent<RectTransform>().sizeDelta.y * (Product.Length + ContiniousProduct.Length) + 20f * (Product.Length + ContiniousProduct.Length - 1));
+                tmp2.GetComponent<RectTransform>().sizeDelta.y * (Product.Count + ContiniousProduct.Count) + 20f * (Product.Count + ContiniousProduct.Count - 1));
 
             resourcesUI.gameObject.SetActive(true);
         }
@@ -65,12 +71,6 @@ public class Build : Building
         {
             Vector3 screenPos = GameManager.Instance.cam.WorldToScreenPoint(transform.position) + new Vector3(0, 40);
             resourcesUI.transform.localPosition = new Vector3(screenPos.x - (Screen.width / 2), screenPos.y - (Screen.height / 2), 0f) / GameManager.Instance.canvas.scaleFactor;
-
-            foreach (Resource ressource in ContiniousProduct)
-            {
-                if (ressource.type != Resource.Type.Or)
-                    ressource.quantity = ressource.CheckRessource(transform.position);
-            }
         }
 
         if (IsPlace)
@@ -83,7 +83,7 @@ public class Build : Building
                 GameManager.Instance.MyEntity.Add(building);
                 building.transform.position = transform.position;
                 building.transform.rotation = transform.rotation;
-                building.ContiniousProduct = ContiniousProduct;
+                building.ContiniousProduct = new List<ResourceCounter>(ContiniousProduct);
                 building.UI = transfertUI;
 
                 Destroy(gameObject);
@@ -93,7 +93,13 @@ public class Build : Building
             }
         }
         else
-        {   
+        {
+            for (int i = 0; i < ContiniousProduct.Count; i++)
+            {
+                if (!(ContiniousProduct[i].resource.type == ResourceSO.Type.Or && prefabsBuilding.name == "Habitation"))
+                    ContiniousProduct[i].quantity = ContiniousProduct[i].CheckRessource(transform.position) * prefabsBuilding.ContiniousProduct[i].quantity;
+            }
+
             IsPlaceable = true;
             Collider[] colliders = Physics.OverlapBox(transform.position, collider.bounds.size / 2.1f, transform.rotation, mask);
             if (colliders.Length > 1)
@@ -103,12 +109,30 @@ public class Build : Building
         }
     }
 
+    public override void OnSelect()
+    {
+        if (!IsPlace)
+            return;
+
+        base.OnSelect();
+        if (resourcesUI)
+            resourcesUI.gameObject.SetActive(true);
+    }
+
+    public override void OnUnselect()
+    {
+        base.OnUnselect();
+        if (resourcesUI)
+            resourcesUI.gameObject.SetActive(false);
+    }
+
     public void Placing()
     {
         IsPlace = true;
         gameObject.layer = LayerMask.NameToLayer("Player");
 
         UIBuild tmp = Instantiate(prefabsUIBuild, GameManager.Instance.ParentUI);
+        tmp.transform.SetSiblingIndex(tmp.transform.parent.childCount - 2);
         tmp.owner = this;
 
         if (resourcesUI)

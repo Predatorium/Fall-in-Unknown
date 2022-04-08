@@ -97,6 +97,7 @@ GameObject:
   - component: {fileID: 599709174476855609}
   - component: {fileID: 6370984358814730668}
   - component: {fileID: 7220491734847467220}
+  - component: {fileID: 1828161916740517005}
   m_Layer: 7
   m_Name: Build
   m_TagString: Untagged
@@ -218,3 +219,19 @@ MonoBehaviour:
   transfertUI: {fileID: 0}
   IsPlaceable: 1
   prefabsUIBuild: {fileID: 1438981218933699587, guid: 155390a220e538943b27bbe2f6d0c1c9, type: 3}
+--- !u!208 &1828161916740517005
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9199541346009808882}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5

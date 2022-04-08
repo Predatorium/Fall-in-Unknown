@@ -137,15 +137,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   price:
-  - type: 0
+  - resource: {fileID: 11400000, guid: 9d3a030c10e908243b4a748de565e17e, type: 2}
     quantity: 1
-    sprite: {fileID: 0}
-  - type: 1
+  - resource: {fileID: 11400000, guid: c97bf93cf99a251498277a8081b932e2, type: 2}
     quantity: 10
-    sprite: {fileID: 0}
-  - type: 3
+  - resource: {fileID: 11400000, guid: 204b7465a889205478b2770730645602, type: 2}
     quantity: 2
-    sprite: {fileID: 0}
   maxLife: 20
   icon: {fileID: 0}
   Name: Warrior
@@ -155,6 +152,9 @@ MonoBehaviour:
   prefabsInfo: {fileID: 57751441806212243, guid: 75cd028b1880cbf49814da19335828bb, type: 3}
   isSelected: 0
   agent: {fileID: 1679421848792679116}
+  mask:
+    serializedVersion: 2
+    m_Bits: 2184
 --- !u!114 &1679421848792679110
 MonoBehaviour:
   m_ObjectHideFlags: 0

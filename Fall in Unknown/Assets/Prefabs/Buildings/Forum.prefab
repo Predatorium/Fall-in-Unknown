@@ -197,9 +197,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   price:
-  - type: 0
+  - resource: {fileID: 11400000, guid: c97bf93cf99a251498277a8081b932e2, type: 2}
     quantity: 200
-    sprite: {fileID: 0}
   maxLife: 100
   icon: {fileID: 0}
   Name: Forum
@@ -212,18 +211,14 @@ MonoBehaviour:
   recrut: {fileID: 0}
   DelayBuild: 0
   Product:
-  - type: 0
+  - resource: {fileID: 11400000, guid: 9d3a030c10e908243b4a748de565e17e, type: 2}
     quantity: 50
-    sprite: {fileID: 0}
-  - type: 1
+  - resource: {fileID: 11400000, guid: c97bf93cf99a251498277a8081b932e2, type: 2}
     quantity: 100
-    sprite: {fileID: 0}
-  - type: 2
+  - resource: {fileID: 11400000, guid: 01c5abfca5babaf40988fdb49b9813c8, type: 2}
     quantity: 100
-    sprite: {fileID: 0}
-  - type: 3
+  - resource: {fileID: 11400000, guid: ff03931fde60ce941b45b46aefafce84, type: 2}
     quantity: 100
-    sprite: {fileID: 0}
   ContiniousProduct: []
   resourcesUI: {fileID: 0}
 --- !u!208 &8839284041396585285
@@ -238,7 +233,7 @@ NavMeshObstacle:
   m_Shape: 1
   m_Extents: {x: 0.5, y: 0.5, z: 0.5}
   m_MoveThreshold: 0.1
-  m_Carve: 0
+  m_Carve: 1
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5

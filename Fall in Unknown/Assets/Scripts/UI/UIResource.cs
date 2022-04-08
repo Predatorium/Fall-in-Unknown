@@ -8,11 +8,11 @@ public class UIResource : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI text = null;
     [SerializeField] private Image image = null;
-    public Resource ressource;
+    public ResourceCounter ressource;
 
     private void Start()
     {
-        image.sprite = ressource.sprite;
+        image.sprite = ressource.resource.sprite;
     }
 
     private void Update()
